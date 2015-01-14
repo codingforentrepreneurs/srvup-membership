@@ -15,4 +15,19 @@ h1 {
 
 <h1>Hello there {{ the_name }}, {{ number }}</h1>
 
+
+<p>{{ videos }}</p>
+
+{% for video in videos %}
+	<p> {{ forloop.counter }})
+	{{ video.embed_code }}
+	</p>
+{% endfor %}
+
+
+<br/>
+
+<h1>Embeds</h1>
+{{ the_embeds }}
+
 {% endblock %}
