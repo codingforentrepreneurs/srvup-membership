@@ -14,3 +14,10 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
+
+
+#auth login/logout
+urlpatterns += patterns('srvup.views',
+	url(r'^logout/$', 'auth_logout', name='logout'),
+    url(r'^login/$', 'auth_login', name='login'),
+)
