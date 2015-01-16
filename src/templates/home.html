@@ -20,6 +20,9 @@ h1 {
 {% for video in videos %}
 	<p> {{ forloop.counter }})
 	{{ video.embed_code|safe }}
+	<br/>
+	<a href="{{ video.get_absolute_url }}">{{ video.title }}</a>
+	
 	</p>
 {% endfor %}
 
