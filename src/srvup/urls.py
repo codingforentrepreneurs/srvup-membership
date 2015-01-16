@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^staff/$', 'srvup.views.staff_home', name='staff'),
     #url(r'^about/about/about/$', 'srvup.views.home', name='about'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^videos/(?P<id>\d+)/$', 'videos.views.video_detail', name='video_detial'),
     url(r'^admin/', include(admin.site.urls)),
 )
 
