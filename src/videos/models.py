@@ -31,6 +31,10 @@ class Video(models.Model):
 	active = models.BooleanField(default=True)
 	featured = models.BooleanField(default=False)
 	free_preview = models.BooleanField(default=False)
+	category = models.ForeignKey("Category", null=True)
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False, null=True)
+	updated = models.DateTimeField(auto_now_add=False, auto_now=True, null=True)
+
 
 	objects = VideoManager()
 
@@ -39,3 +43,24 @@ class Video(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("video_detial", kwargs={"id": self.id})
+
+
+
+class Category(models.Model):
+	title = models.CharField(max_length=120)
+	#videos = models.ManyToManyField(Video, null=True, blank=True)
+	description = models.TextField(max_length=5000, null=True, blank=True)
+	image = models.ImageField(upload_to='images/', null=True, blank=True)
+	active = models.BooleanField(default=True)
+	featured = models.BooleanField(default=False)
+	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+	updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+	def __unicode__(self):
+		return self.title
+
+
+
+
+
+
