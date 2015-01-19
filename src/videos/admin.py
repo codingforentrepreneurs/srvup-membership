@@ -6,8 +6,7 @@ from .models import Video, Category
 
 class VideoAdmin(admin.ModelAdmin):
 	list_display = ["__unicode__", 'slug']
-	fields = ['title', 'embed_code', 
-			"slug", 'active', 
+	fields = ['title', 'embed_code','active',"slug",
 			'featured', 'free_preview',
 			 'category']
 	prepopulated_fields = {
