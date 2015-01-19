@@ -8,4 +8,15 @@
 
 {{ obj.embed_code|safe }}
 
+<br/>
+
+
+<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ obj.get_share_link }}"><i class="fa fa-facebook-square fa-3x"></i></a>
+
+
+<a target="_blank" href="https://twitter.com/home?status={{ obj.get_share_message|safe }}"><i class="fa fa-twitter-square fa-3x"></i></a>
+
+<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ obj.get_share_link }}&title={{ obj.get_share_message|safe }}&summary={{ obj.get_share_message|safe }}&source={{ obj.get_share_link }}">
+<i class="fa fa-linkedin-square fa-3x"></i>
+</a>
 {% endblock %}

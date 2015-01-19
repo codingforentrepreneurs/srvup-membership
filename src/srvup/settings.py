@@ -25,6 +25,7 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
+FULL_DOMAIN_NAME = 'http://www.codingforentrepreneurs.com'
 
 LOGIN_URL = "/login/"
 
