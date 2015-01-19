@@ -49,6 +49,8 @@ class Video(models.Model):
 		return reverse("video_detail", kwargs={"vid_slug": self.slug, "cat_slug": self.category.slug})
 
 
+
+
 class Category(models.Model):
 	title = models.CharField(max_length=120)
 	description = models.TextField(max_length=5000, null=True, blank=True)
