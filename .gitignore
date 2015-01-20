@@ -1,12 +1,10 @@
-<<<<<<< HEAD
+git_log.txt
 .DS_Store
 .Python
 bin/
 include/
 lib/
 
-=======
->>>>>>> de6ad1f40ae812e2bb3fe2b88c0d49905c46ebbf
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
