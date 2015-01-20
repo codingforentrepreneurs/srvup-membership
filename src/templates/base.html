@@ -56,6 +56,14 @@
     </div> <!-- /container -->
 
     {% include 'javascript.html' %}
+    <script>
+      $(document).ready(function(){
+        // alert('jquery woking');
+        {% block jquery %}
+        {% endblock %}
+
+      });
+    </script>
 
 
   </body>
