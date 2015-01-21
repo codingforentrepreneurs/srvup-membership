@@ -13,7 +13,16 @@ h1 {
 
 {% block content %}
 
+<form method='POST' action=''>{% csrf_token %}
+{{ form.as_p }}
+<input class='btn btn-default' type='submit' value='Register'/>
+</form>
+
+
+
+
 <h1>Hello there {{ the_name }}, {{ number }}</h1>
+
 
 <p>{{ videos }}</p>
 

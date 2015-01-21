@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<form method='POST' action='{{ action_value }}'>{% csrf_token %}
+{{ form.as_p }}
+<input class='btn btn-default' type='submit' value='{{ submit_btn_value }}'/>
+</form>
+
+
+{% endblock %}
