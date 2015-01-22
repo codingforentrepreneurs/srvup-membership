@@ -10,7 +10,6 @@ from accounts.models import MyUser
 
 from videos.models import Video
 
-from .forms import LoginForm
 
 
 
@@ -97,24 +96,3 @@ def staff_home(request):
 
 
 
-def auth_logout(request):
-	logout(request)
-	return HttpResponseRedirect('/')
-
-
-
-def auth_login(request):
-	form = LoginForm(request.POST or None)
-	next_url = request.GET.get('next')
-	if form.is_valid():
-		username = form.cleaned_data['username']
-		password = form.cleaned_data['password']
-		print username, password
-		user = authenticate(username=username, password=password)
-		if user is not None:
-			login(request, user)
-			return HttpResponseRedirect(next_url)
-
-	context = {"form": form}
-	return render(request, "login.html", context)
-	
