@@ -36,3 +36,11 @@ class Comment(models.Model):
 
 	def __unicode__(self):
 		return self.user.username
+
+	@property
+	def get_comment(self):
+		return self.text
+
+
+
+

@@ -2,6 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, Http404
 
 # Create your views here.
+from comments.forms import CommentForm
+from comments.models import Comment
+
+
+
 from .models import Video, Category
 
 
@@ -13,7 +18,18 @@ def video_detail(request, cat_slug, vid_slug):
 		raise Http404
 	try:
 		obj = Video.objects.get(slug=vid_slug)
-		return render(request, "videos/video_detail.html", {"obj": obj})
+		comments = obj.comment_set.all()
+		comment_form = CommentForm(request.POST or None)
+		if comment_form.is_valid():
+			obj_instance = comment_form.save(commit=False)
+			obj_instance.user = request.user
+			obj_instance.path = request.get_full_path()
+			obj_instance.video = obj
+			obj_instance.save()
+			return render(request, "videos/video_detail.html", {"obj": obj, "comments":comments}) 
+
+		#comments = Comment.objects.filter(video=obj)
+		return render(request, "videos/video_detail.html", {"obj": obj, "comments":comments, "comment_form": comment_form})
 	except:
 		raise Http404
 

@@ -47,4 +47,36 @@ $(window).bind("resize", function(){
 <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ obj.get_share_link }}&title={{ obj.get_share_message|safe }}&summary={{ obj.get_share_message|safe }}&source={{ obj.get_share_link }}">
 <i class="fa fa-linkedin-square fa-3x"></i>
 </a>
+
+<br/>
+<hr/>
+
+<div class='row'>
+<div class='col-sm-12'>
+<h1>Comments/Questions</h1>
+<form method="POST" action=''>{% csrf_token %}
+{{ comment_form.as_p }}
+<input type='submit' value='Add comment'/>
+</form>
+
+{% for comment in comments %}
+
+{{ comment.get_comment }}
+
+{% endfor %}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
