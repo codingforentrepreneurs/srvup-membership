@@ -6,6 +6,9 @@
 
 {% block content %}
 
-{{ queryset }}
+{% for item in queryset %}
+
+<a href='{{ item.get_absolute_url }}'>{{ item }}</a> <br/>
+{% endfor %}
 
 {% endblock %}
