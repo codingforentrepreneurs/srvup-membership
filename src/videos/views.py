@@ -14,6 +14,31 @@ from .models import Video, Category
 def video_detail(request, cat_slug, vid_slug):
 	obj = Video.objects.get(slug=vid_slug)
 	comments = obj.comment_set.all()
+	comment_form = CommentForm(request.POST or None)
+	if comment_form.is_valid():
+		parent_id = request.POST.get('parent_id')
+		parent_comment = None
+		if parent_id is not None:
+			try:
+				parent_comment = Comment.objects.get(id=parent_id)
+			except:
+				parent_comment = None
+
+		comment_text = comment_form.cleaned_data['comment']
+		new_comment = Comment.objects.create_comment(
+			user=request.user, 
+			path=request.get_full_path(), 
+			text=comment_text,
+			video = obj,
+			parent=parent_comment
+			)
+		'''
+		+**** add comment thread and show that thread with a message
+		'''
+
+		return HttpResponseRedirect(obj.get_absolute_url())
+
+
 	for c in comments:
 		c.get_children()
 	try:
@@ -25,12 +50,24 @@ def video_detail(request, cat_slug, vid_slug):
 		comments = obj.comment_set.all()
 		comment_form = CommentForm(request.POST or None)
 		if comment_form.is_valid():
+			parent_id = request.POST.get('parent_id')
+			print parent_id
+			if parent_id is not None:
+				parent_comment = Comment.objects.get(id=parent_id)
+				try:
+					parent_comment = Comment.objects.get(id=parent_id)
+					print parent_comment.get_comment
+				except:
+					parent_comment = None
+
 			comment_text = comment_form.cleaned_data['comment']
 			new_comment = Comment.objects.create_comment(
 				user=request.user, 
 				path=request.get_full_path(), 
 				text=comment_text,
-				video = obj)
+				video = obj,
+				parent=parent_comment
+				)
 			'''
 			+**** add comment thread and show that thread with a message
 			'''

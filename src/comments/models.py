@@ -9,7 +9,7 @@ class CommentManager(models.Manager):
 	def all(self):
 		return super(CommentManager, self).filter(active=True).filter(parent=None)
 
-	def create_comment(self, user=None, text=None, path=None, video=None):
+	def create_comment(self, user=None, text=None, path=None, video=None, parent=None):
 		if not path:
 			raise ValueError("Must include a path when adding a Comment")
 		if not user:
@@ -22,6 +22,8 @@ class CommentManager(models.Manager):
 		)
 		if video is not None:
 			comment.video = video
+		if parent is not None:
+			comment.parent = parent
 		comment.save(using=self._db)
 		return comment
 

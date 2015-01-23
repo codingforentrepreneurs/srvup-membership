@@ -2,9 +2,18 @@
 
 {% block title %}{% endblock %}
 
+<style>
+{% block style %}
+.reply_comment {
+	display: none;
+}
+{% endblock %}
+</style>
+
 
 <script>
 {% block jquery %}
+
 function update_iframe_size(){
 	var parent_id = $("iframe").parent().attr("id");
 	if (parent_id == "main_video") {
@@ -25,6 +34,18 @@ $(window).bind("resize", function(){
 	// alert("reized");
 	update_iframe_size();
 });
+
+
+
+$('.reply_btn').click(function(e){
+	e.preventDefault();
+	$(this).next(".reply_comment").fadeToggle();
+	// $(".reply_comment").fadeToggle();
+
+})
+
+
+
 {% endblock %}
 </script>
 
@@ -56,9 +77,12 @@ $(window).bind("resize", function(){
 <h1>Comments/Questions</h1>
 <form method="POST" action=''>{% csrf_token %}
 {{ comment_form.as_p }}
-<input type='submit' value='Add comment'/>
+<input type='submit' class='btn btn-default' value='Add comment'/>
 </form>
 
+
+<br/>
+<br/>
 <table class='table'>
 
 {% for comment in comments %}
@@ -69,9 +93,20 @@ $(window).bind("resize", function(){
 				<ul>
 				{% for child in comment.get_children %}
 				<li>{{ child.get_comment }} 
-				<small>via {{ child.user }}</small></li>
+				<small>via {{ child.user }}</small>
+
+
+				</li>
 				{% endfor %}
 				</ul>
+				<a href='#' class='reply_btn'>Reply</a>
+				<div class='reply_comment'>
+				<form method="POST" action=''>{% csrf_token %}
+				<input type='hidden' name='parent_id' value='{{ comment.id }}' />
+				{{ comment_form.as_p }}
+				<input type='submit' class='btn btn-default' value='Add reply'/>
+				</form>
+				</div>
 				{% endif %}
 
 
