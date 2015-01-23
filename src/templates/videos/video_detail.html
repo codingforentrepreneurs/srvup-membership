@@ -59,12 +59,27 @@ $(window).bind("resize", function(){
 <input type='submit' value='Add comment'/>
 </form>
 
+<table class='table'>
+
 {% for comment in comments %}
 
-{{ comment.get_comment }}
+<tr><td>{{ comment.get_comment }} 
+<br/><small>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago </small>
+				{% if not comment.is_child %}
+				<ul>
+				{% for child in comment.get_children %}
+				<li>{{ child.get_comment }} 
+				<small>via {{ child.user }}</small></li>
+				{% endfor %}
+				</ul>
+				{% endif %}
+
+
+</td></tr>
 
 {% endfor %}
 
+</table>
 </div>
 
 

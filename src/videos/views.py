@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, Http404
+from django.shortcuts import render, Http404, HttpResponseRedirect
 
 # Create your views here.
 from comments.forms import CommentForm
@@ -12,6 +12,10 @@ from .models import Video, Category
 
 @login_required
 def video_detail(request, cat_slug, vid_slug):
+	obj = Video.objects.get(slug=vid_slug)
+	comments = obj.comment_set.all()
+	for c in comments:
+		c.get_children()
 	try:
 		cat = Category.objects.get(slug=cat_slug)
 	except:
@@ -21,14 +25,17 @@ def video_detail(request, cat_slug, vid_slug):
 		comments = obj.comment_set.all()
 		comment_form = CommentForm(request.POST or None)
 		if comment_form.is_valid():
-			obj_instance = comment_form.save(commit=False)
-			obj_instance.user = request.user
-			obj_instance.path = request.get_full_path()
-			obj_instance.video = obj
-			obj_instance.save()
-			return render(request, "videos/video_detail.html", {"obj": obj, "comments":comments}) 
+			comment_text = comment_form.cleaned_data['comment']
+			new_comment = Comment.objects.create_comment(
+				user=request.user, 
+				path=request.get_full_path(), 
+				text=comment_text,
+				video = obj)
+			'''
+			+**** add comment thread and show that thread with a message
+			'''
 
-		#comments = Comment.objects.filter(video=obj)
+			return HttpResponseRedirect(obj.get_absolute_url())
 		return render(request, "videos/video_detail.html", {"obj": obj, "comments":comments, "comment_form": comment_form})
 	except:
 		raise Http404
