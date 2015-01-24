@@ -41,6 +41,30 @@ Each Lecture Name is linked to the related source code.
 
 [Social Sharing](../../tree/ef769651caac60012395cf47b646a0158c1a4608)
 
+[Responsive Video with jQuery Part 1 & 2](../../tree/2eae96e2c813b2b4a385055bc99e637585643924)
+
+[Custom User Model Part 1](../../tree/d3e2fdd5828406c1187e3dc94d56718e9ed62d40)
+
+[Register User Part 1 & 2](../../tree/2e10d40f27a77890dbd9525dda085a669e25b69c)
+
+[Update Navbar & Account Views](../../tree/91541db136d555744995ee06632d9774b3ba6646)
+
+[Comments App](../../tree/469066a54995bb88ff1542f07736d1f9c2328d5a)
+
+[Comment Form](../../tree/216dbb3a1513c4c0b27404aa2cdd669e407f2a67)
+
+[Parent & Child Comments](../../tree/ba8bbf5034986e9fe992b739d75fc945a4dd7f13)
+
+[Reply to Comment](../../tree/dba4a872a18339df15b5781c10541830ac1cc4e0)
+
+[Comment Thread](../../tree/d2c5d2aa5175e49426e9cb806db5b98199cbb0fc)
+
+[Comment Create View](../../tree/091cfc0cfbfc6ff9633e5e3ec14d4f2c7e20d119)
+
+
+
+
+
 
 
 
