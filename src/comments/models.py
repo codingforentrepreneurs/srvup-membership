@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 # Create your models here.
@@ -46,6 +47,14 @@ class Comment(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
+
+	def get_absolute_url(self):
+		return reverse('comment_thread', kwargs={"id": self.id})
+
+	@property 
+	def get_origin(self):
+		return self.path
+
 	@property
 	def get_comment(self):
 		return self.text
@@ -62,6 +71,14 @@ class Comment(models.Model):
 			return None
 		else:
 			return Comment.objects.filter(parent=self)
+
+
+
+
+
+
+
+
 
 
 

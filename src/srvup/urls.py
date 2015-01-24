@@ -23,3 +23,11 @@ urlpatterns += patterns('accounts.views',
 	url(r'^logout/$', 'auth_logout', name='logout'),
     url(r'^login/$', 'auth_login', name='login'),
 )
+
+
+
+#Comment Thread
+urlpatterns += patterns('comments.views',
+    url(r'^comment/(?P<id>\d+)$', 'comment_thread', name='comment_thread'),
+    url(r'^comment/create/$', 'comment_create_view', name='comment_create'),
+)

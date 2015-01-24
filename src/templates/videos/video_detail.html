@@ -99,7 +99,7 @@ $('.reply_btn').click(function(e){
 				</li>
 				{% endfor %}
 				</ul>
-				<a href='#' class='reply_btn'>Reply</a>
+				<a href='#' class='reply_btn'>Reply</a> | <a href='{{ comment.get_absolute_url }}'>View Thread</a>
 				<div class='reply_comment'>
 				<form method="POST" action=''>{% csrf_token %}
 				<input type='hidden' name='parent_id' value='{{ comment.id }}' />
