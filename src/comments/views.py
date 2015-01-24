@@ -1,7 +1,12 @@
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, Http404, HttpResponseRedirect
 
 # Create your views here.
+
+from videos.models import Video
+
 from .models import Comment
 from .forms import CommentForm
 
@@ -20,23 +25,29 @@ def comment_thread(request, id):
 
 def comment_create_view(request):
 	if request.method == "POST" and request.user.is_authenticated():
+		parent_id = request.POST.get('parent_id')
+		video_id = request.POST.get("video_id")
+		origin_path = request.POST.get("origin_path")
+		try:
+			video = Video.objects.get(id=video_id)
+		except:
+			video = None
+
+		print video
+		parent_comment = None
+		if parent_id is not None:
+			try:
+				parent_comment = Comment.objects.get(id=parent_id)
+			except:
+				parent_comment = None
+
+			if parent_comment is not None and parent_comment.video is not None:
+				video = parent_comment.video
+
 		form = CommentForm(request.POST)
 		if form.is_valid():
-			parent_id = request.POST.get('parent_id')
-			parent_comment = None
-			if parent_id is not None:
-				try:
-					parent_comment = Comment.objects.get(id=parent_id)
-				except:
-					parent_comment = None
-
 			comment_text = form.cleaned_data['comment']
-			video = None
-			
-
 			if parent_comment is not None:
-				if parent_comment.video is not None:
-					video = parent_comment.video
 				new_comment = Comment.objects.create_comment(
 					user=request.user, 
 					path=parent_comment.get_origin, 
@@ -45,14 +56,18 @@ def comment_create_view(request):
 					parent=parent_comment
 					)
 				return HttpResponseRedirect(parent_comment.get_absolute_url())
-			# else:
-			# 	new_comment = Comment.objects.create_comment(
-			# 		user=request.user, 
-			# 		path=parent_comment.get_origin, 
-			# 		text=comment_text,
-			# 		video = obj,
-			# 		parent=parent_comment
-			# 		)
-			#comment origin
+			else:
+				new_comment = Comment.objects.create_comment(
+					user=request.user, 
+					path=origin_path, 
+					text=comment_text,
+					video = video
+					)
+				return HttpResponseRedirect(new_comment.get_absolute_url())
+		else:
+			print origin_path
+			messages.error(request, "There was an error with your comment.")
+			return HttpResponseRedirect(origin_path)
+
 	else:
 		raise Http404

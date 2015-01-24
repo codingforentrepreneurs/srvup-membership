@@ -14,6 +14,7 @@
 <script>
 {% block jquery %}
 
+
 function update_iframe_size(){
 	var parent_id = $("iframe").parent().attr("id");
 	if (parent_id == "main_video") {
@@ -36,12 +37,10 @@ $(window).bind("resize", function(){
 });
 
 
-
 $('.reply_btn').click(function(e){
 	e.preventDefault();
 	$(this).next(".reply_comment").fadeToggle();
 	// $(".reply_comment").fadeToggle();
-
 })
 
 
@@ -75,7 +74,10 @@ $('.reply_btn').click(function(e){
 <div class='row'>
 <div class='col-sm-12'>
 <h1>Comments/Questions</h1>
-<form method="POST" action=''>{% csrf_token %}
+<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
+<input type='hidden' name='video_id' value='{{ obj.id }}'/>
+<input type='hidden' name='origin_path' value='{{ request.get_full_path }}'/>
+
 {{ comment_form.as_p }}
 <input type='submit' class='btn btn-default' value='Add comment'/>
 </form>
@@ -99,9 +101,11 @@ $('.reply_btn').click(function(e){
 				</li>
 				{% endfor %}
 				</ul>
-				<a href='#' class='reply_btn'>Reply</a> | <a href='{{ comment.get_absolute_url }}'>View Thread</a>
+				<a href='{{ comment.get_absolute_url }}'>View Thread</a> | <a href='#' class='reply_btn'>Reply</a>
 				<div class='reply_comment'>
-				<form method="POST" action=''>{% csrf_token %}
+				<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
+				<input type='hidden' name='video_id' value='{% url "comment_create" %}'/>
+				<input type='hidden' name='origin_path' value='{{ comment.get_origin }}'/>
 				<input type='hidden' name='parent_id' value='{{ comment.id }}' />
 				{{ comment_form.as_p }}
 				<input type='submit' class='btn btn-default' value='Add reply'/>

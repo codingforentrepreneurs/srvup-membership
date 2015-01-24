@@ -23,29 +23,7 @@ def video_detail(request, cat_slug, vid_slug):
 	try:
 		obj = Video.objects.get(slug=vid_slug)
 		comments = obj.comment_set.all()
-		comment_form = CommentForm(request.POST or None)
-		if comment_form.is_valid():
-			parent_id = request.POST.get('parent_id')
-			parent_comment = None
-			if parent_id is not None:
-				try:
-					parent_comment = Comment.objects.get(id=parent_id)
-				except:
-					parent_comment = None
-
-			comment_text = comment_form.cleaned_data['comment']
-			new_comment = Comment.objects.create_comment(
-				user=request.user, 
-				path=request.get_full_path(), 
-				text=comment_text,
-				video = obj,
-				parent=parent_comment
-				)
-			'''
-			+**** add comment thread and show that thread with a message
-			'''
-
-			return HttpResponseRedirect(obj.get_absolute_url())
+		comment_form = CommentForm()
 		return render(request, "videos/video_detail.html", {"obj": obj, "comments":comments, "comment_form": comment_form})
 	except:
 		raise Http404
