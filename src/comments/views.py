@@ -56,7 +56,7 @@ def comment_create_view(request):
 					video = video,
 					parent=parent_comment
 					)
-				messages.error(request, "Thank you for your response. <a href='/somellink/'>Linked Item</a>", extra_tags='safe')
+				messages.success(request, "Thank you for your response.", extra_tags='safe')
 				return HttpResponseRedirect(parent_comment.get_absolute_url())
 			else:
 				new_comment = Comment.objects.create_comment(

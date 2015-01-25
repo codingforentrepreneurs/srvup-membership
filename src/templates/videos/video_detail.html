@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}{% endblock %}
 
@@ -7,6 +8,7 @@
 .reply_comment {
 	display: none;
 }
+
 {% endblock %}
 </style>
 
@@ -78,7 +80,7 @@ $('.reply_btn').click(function(e){
 <input type='hidden' name='video_id' value='{{ obj.id }}'/>
 <input type='hidden' name='origin_path' value='{{ request.get_full_path }}'/>
 
-{{ comment_form.as_p }}
+{% crispy comment_form comment_form.helper %}
 <input type='submit' class='btn btn-default' value='Add comment'/>
 </form>
 
@@ -107,7 +109,7 @@ $('.reply_btn').click(function(e){
 				<input type='hidden' name='video_id' value='{% url "comment_create" %}'/>
 				<input type='hidden' name='origin_path' value='{{ comment.get_origin }}'/>
 				<input type='hidden' name='parent_id' value='{{ comment.id }}' />
-				{{ comment_form.as_p }}
+				{% crispy comment_form comment_form.helper %}
 				<input type='submit' class='btn btn-default' value='Add reply'/>
 				</form>
 				</div>
