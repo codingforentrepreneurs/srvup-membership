@@ -75,10 +75,3 @@ class Comment(models.Model):
 
 
 
-
-
-
-
-
-
-

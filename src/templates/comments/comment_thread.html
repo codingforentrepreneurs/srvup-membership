@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -22,8 +22,8 @@
 				<div>
 				<form method="POST" action='{% url "comment_create" %}'>{% csrf_token %}
 				<input type='hidden' name='parent_id' value='{{ comment.id }}' />
-				{{ form.as_p }}
-				<input type='submit' class='btn btn-default' value='Add reply'/>
+				{% crispy form form.helper %}
+				<!-- <input type='submit' class='btn btn-default' value='Add reply'/> -->
 				</form>
 				</div>
 				{% endif %}

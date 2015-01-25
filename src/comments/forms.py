@@ -21,3 +21,4 @@ class CommentForm(forms.Form):
 		super(CommentForm, self).__init__(data, files, kwargs)
 		self.helper = FormHelper()
 		self.helper.form_show_labels = False
+		self.helper.add_input(Submit('submit', 'Add Comment', css_class='btn btn-primary',))
