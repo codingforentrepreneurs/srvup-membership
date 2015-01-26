@@ -110,6 +110,34 @@ class Category(models.Model):
 		return reverse("project_detail", kwargs={"cat_slug": self.slug})
 
 
+TAG_CHOICES = (
+	("python", "python"),
+	("django", "django"),
+	("css", "css"),
+	("bootstrap", "bootstrap"),
+)
+
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
+
+class TaggedItem(models.Model):
+	#category = models.ForeignKey(Category, null=True)
+	#video = models.ForeignKey(Video)
+	tag = models.SlugField(choices=TAG_CHOICES)
+	content_type = models.ForeignKey(ContentType)
+	object_id = models.PositiveIntegerField()
+	content_object = GenericForeignKey()
+
+	def __unicode__(self):
+		return self.tag
+
+
+
+
+
+
+
 
 
 
