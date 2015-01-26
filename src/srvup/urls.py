@@ -36,8 +36,7 @@ urlpatterns += patterns('comments.views',
 #Notifications
 urlpatterns += patterns('notifications.views',
     url(r'^notifications/$', 'all', name='notifications_all'),
-    url(r'^notifications/unread/$', 'all', name='notifications_all'),
-    url(r'^notifications/read/$', 'all', name='notifications_all'),
+    url(r'^notifications/(?P<id>\d+)/$', 'read', name='notifications_read'),
 )
 
 
