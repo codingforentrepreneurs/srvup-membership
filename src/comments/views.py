@@ -5,6 +5,8 @@ from django.shortcuts import render, Http404, HttpResponseRedirect
 
 # Create your views here.
 
+from notifications.signals import notify
+
 from videos.models import Video
 
 from .models import Comment
@@ -56,6 +58,7 @@ def comment_create_view(request):
 					video = video,
 					parent=parent_comment
 					)
+				notify.send(request.user, recipient=parent_comment.user, action='Responded to user')
 				messages.success(request, "Thank you for your response.", extra_tags='safe')
 				return HttpResponseRedirect(parent_comment.get_absolute_url())
 			else:
@@ -65,6 +68,8 @@ def comment_create_view(request):
 					text=comment_text,
 					video = video
 					)
+
+				notify.send(request.user, recipient=request.user, action='New comment added')
 				messages.success(request, "Thank you for the comment.")
 				return HttpResponseRedirect(new_comment.get_absolute_url())
 		else:
