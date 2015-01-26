@@ -17,12 +17,12 @@ class Notification(models.Model):
 
 	action_content_type = models.ForeignKey(ContentType, related_name='notify_action', 
 		null=True, blank=True)
-	action_object_id = models.PositiveIntegerField()
+	action_object_id = models.PositiveIntegerField(null=True, blank=True)
 	action_object = GenericForeignKey("action_content_type", "action_object_id")
 
 	target_content_type = models.ForeignKey(ContentType, related_name='notify_target', 
 		null=True, blank=True)
-	target_object_id = models.PositiveIntegerField()
+	target_object_id = models.PositiveIntegerField(null=True, blank=True)
 	target_object = GenericForeignKey("target_content_type", "target_object_id")
 
 	recipient = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notifications')
@@ -36,13 +36,25 @@ class Notification(models.Model):
 
 
 
-def new_notification(sender, recipient, action, *args, **kwargs):
-	print recipient
-	print action
-	new_notification_create = Notification.objects.create(recipient=recipient, action=action)
-	print sender
-	print args
-	print kwargs
+def new_notification(sender, **kwargs):
+	kwargs.pop('signal', None)
+	recipient = kwargs.pop("recipient")
+	verb = kwargs.pop("verb")
+	#target = kwargs.pop("target", None)
+	#action = kwargs.pop("action", None)
+	new_note = Notification(
+		recipient=recipient,
+		verb = verb, # smart_text
+		sender_content_type = ContentType.objects.get_for_model(sender),
+		sender_object_id = sender.id,
+		)
+	for option in ("target", "action"):
+		obj = kwargs.pop(option, None)
+		if obj is not None:
+			setattr(new_note, "%s_content_type" %option, ContentType.objects.get_for_model(obj))
+			setattr(new_note, "%s_object_id" %option, obj.id)
+	new_note.save()
+	print new_note
 
 
 notify.connect(new_notification)

@@ -58,7 +58,12 @@ def comment_create_view(request):
 					video = video,
 					parent=parent_comment
 					)
-				notify.send(request.user, recipient=parent_comment.user, action='Responded to user')
+				notify.send(
+						request.user, 
+						action=new_comment, 
+						target=parent_comment, 
+						recipient=parent_comment.user, 
+						verb='replied to')
 				messages.success(request, "Thank you for your response.", extra_tags='safe')
 				return HttpResponseRedirect(parent_comment.get_absolute_url())
 			else:
@@ -68,8 +73,13 @@ def comment_create_view(request):
 					text=comment_text,
 					video = video
 					)
-
-				notify.send(request.user, recipient=request.user, action='New comment added')
+				notify.send(
+						request.user, 
+						recipient = request.user, 
+						action=new_comment, 
+						target = new_comment.video,
+						verb='commented on')
+				#notify.send(request.user, recipient=request.user, action='New comment added')
 				messages.success(request, "Thank you for the comment.")
 				return HttpResponseRedirect(new_comment.get_absolute_url())
 		else:
