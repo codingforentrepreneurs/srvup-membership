@@ -61,9 +61,15 @@ Each Lecture Name is linked to the related source code.
 
 [Comment Create View](../../tree/091cfc0cfbfc6ff9633e5e3ec14d4f2c7e20d119)
 
+[Django Messages](../../tree/f3269f338ad2b7bd3e01ba00612a5ad0c88414e6)
 
+[Django Crispy Forms](../../tree/508db39bafe26c54d0906497d32afcd7a2bbdfbb)
 
+[Custom Signal & Notifications App](../../tree/eed1fe1d9c9e56f3b06c16627bd89a28f13e7b9e)
 
+[Content Types](../../tree/51361b82bfe263eaca418daa18979af0743f7f9e)
+
+[Add Tags to Models](../../tree/a35bffb426a1bad0a0aa37de2fc11bb3ec036dd1)
 
 
 
