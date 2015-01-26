@@ -45,7 +45,7 @@ class Comment(models.Model):
 		ordering = ['-timestamp']
 
 	def __unicode__(self):
-		return self.user.username
+		return self.text
 
 
 	def get_absolute_url(self):
