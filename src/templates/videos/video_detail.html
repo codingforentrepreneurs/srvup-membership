@@ -58,6 +58,16 @@ $('.reply_btn').click(function(e){
 {{ obj.embed_code|safe }}
 </div>
 
+{% if obj.tags.all %}
+<div class='col-sm-12'>
+<ul>
+{% for tag in obj.tags.all %}
+<li>{{ tag }}</li>
+{% endfor %}
+<ul>
+</div>
+{% endif %}
+
 <br/>
 
 

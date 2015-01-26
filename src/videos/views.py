@@ -15,9 +15,8 @@ from .models import Video, Category, TaggedItem
 def video_detail(request, cat_slug, vid_slug):
 	obj = Video.objects.get(slug=vid_slug)
 	comments = obj.comment_set.all()
-	content_type = ContentType.objects.get_for_model(obj)
-	tags = TaggedItem.objects.filter(content_type=content_type, object_id=obj.id)
-	print tags
+	# content_type = ContentType.objects.get_for_model(obj)
+	# tags = TaggedItem.objects.filter(content_type=content_type, object_id=obj.id)
 	for c in comments:
 		c.get_children()
 	try:

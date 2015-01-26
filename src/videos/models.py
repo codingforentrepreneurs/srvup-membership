@@ -1,6 +1,9 @@
 import urllib2
 
+
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
@@ -37,6 +40,7 @@ class Video(models.Model):
 	title = models.CharField(max_length=120)
 	embed_code = models.CharField(max_length=500, null=True, blank=True)
 	share_message = models.TextField(default=DEFAULT_MESSAGE)
+	tags = GenericRelation("TaggedItem", null=True, blank=True)
 	slug = models.SlugField(null=True, blank=True)
 	active = models.BooleanField(default=True)
 	featured = models.BooleanField(default=False)
@@ -95,6 +99,7 @@ post_save.connect(video_post_save_receiver, sender=Video)
 class Category(models.Model):
 	title = models.CharField(max_length=120)
 	description = models.TextField(max_length=5000, null=True, blank=True)
+	tags = GenericRelation("TaggedItem", null=True, blank=True)
 	image = models.ImageField(upload_to='images/', null=True, blank=True)
 	slug = models.SlugField(default='abc', unique=True)
 	active = models.BooleanField(default=True)
@@ -117,8 +122,6 @@ TAG_CHOICES = (
 	("bootstrap", "bootstrap"),
 )
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 
 
 class TaggedItem(models.Model):
