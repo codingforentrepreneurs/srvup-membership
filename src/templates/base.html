@@ -40,6 +40,10 @@
 
 
     <div class="container">
+
+    <div id='notificationsLoader'>
+
+    </div>
       {% if messages %}
         {% for message in messages %}
         <div class="alert {% if 'error' in message.tags %}alert-warning{%else %}alert-success{% endif %}" role="alert">{% if 'safe' in message.tags %}{{ message|safe }}{% else %} {{ message }}{% endif %}
@@ -70,6 +74,44 @@
         {% endblock %}
 
       });
+    </script>
+    <script>
+    $(document).ready(function(){
+      $(".notification-toggle").click(function(e){
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "{% url 'get_notifications_ajax' %}",
+          data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function(data){
+            $("#notification_dropdown").html(' <li role="presentation" class="dropdown-header">Notifications</li>');
+            var count = data.count
+            console.log(count)
+            if (count == 0) {
+              var url = '{% url "notifications_all" %}'
+              $("#notification_dropdown").append("<li><a href='" + url+ "'>View All Notifications</a></li>")
+            } else {
+              $(data.notifications).each(function(){
+                var link = this;
+                $("#notification_dropdown").append("<li>" + link + "</li>")
+
+              })
+            }
+            console.log(data.notifications);
+
+          },
+          error: function(rs, e) {
+            console.log(rs);
+            console.log(e);
+          }
+
+        })
+
+      })
+
+    })
     </script>
 
 
