@@ -80,6 +80,13 @@ $('.reply_btn').click(function(e){
 <i class="fa fa-linkedin-square fa-3x"></i>
 </a>
 
+{% if obj.get_previous_url %}
+<a href='{{ obj.get_previous_url }}'>Prev</a>
+{% endif %}
+{% if obj.get_next_url %}	
+<a href='{{ obj.get_next_url }}'>Next</a>
+{% endif %}
+
 <br/>
 <hr/>
 
