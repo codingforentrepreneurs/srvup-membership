@@ -58,11 +58,13 @@ def comment_create_view(request):
 					video = video,
 					parent=parent_comment
 					)
+				affected_users = parent_comment.get_affected_users()
 				notify.send(
 						request.user, 
 						action=new_comment, 
 						target=parent_comment, 
-						recipient=parent_comment.user, 
+						recipient=parent_comment.user,
+						affected_users = affected_users,
 						verb='replied to')
 				messages.success(request, "Thank you for your response.", extra_tags='safe')
 				return HttpResponseRedirect(parent_comment.get_absolute_url())
@@ -73,12 +75,13 @@ def comment_create_view(request):
 					text=comment_text,
 					video = video
 					)
-				notify.send(
-						request.user, 
-						recipient = request.user, 
-						action=new_comment, 
-						target = new_comment.video,
-						verb='commented on')
+				# option to send to super user or staff users
+				# notify.send(
+				# 		request.user, 
+				# 		recipient = request.user, 
+				# 		action=new_comment, 
+				# 		target = new_comment.video,
+				# 		verb='commented on')
 				#notify.send(request.user, recipient=request.user, action='New comment added')
 				messages.success(request, "Thank you for the comment.")
 				return HttpResponseRedirect(new_comment.get_absolute_url())

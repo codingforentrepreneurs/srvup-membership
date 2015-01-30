@@ -122,21 +122,51 @@ def new_notification(sender, **kwargs):
 	kwargs.pop('signal', None)
 	recipient = kwargs.pop("recipient")
 	verb = kwargs.pop("verb")
+	#verb = kwargs["verb"]
+	affected_users = kwargs.pop('affected_users')
+	#print "affected users are"
+	#print affected_users
+	#print sender
+
 	#target = kwargs.pop("target", None)
 	#action = kwargs.pop("action", None)
-	new_note = Notification(
-		recipient=recipient,
-		verb = verb, # smart_text
-		sender_content_type = ContentType.objects.get_for_model(sender),
-		sender_object_id = sender.id,
-		)
-	for option in ("target", "action"):
-		obj = kwargs.pop(option, None)
-		if obj is not None:
-			setattr(new_note, "%s_content_type" %option, ContentType.objects.get_for_model(obj))
-			setattr(new_note, "%s_object_id" %option, obj.id)
-	new_note.save()
-	print new_note
+	if affected_users is not None:
+		for u in affected_users:
+			if u == sender:
+				pass
+			else:
+				print u
+				new_note = Notification(
+					recipient=u,
+					verb = verb, # smart_text
+					sender_content_type = ContentType.objects.get_for_model(sender),
+					sender_object_id = sender.id,
+					)
+				for option in ("target", "action"):
+					#obj = kwargs.pop(option, None)
+					try:
+						obj = kwargs[option]
+						if obj is not None:
+							setattr(new_note, "%s_content_type" %option, ContentType.objects.get_for_model(obj))
+							setattr(new_note, "%s_object_id" %option, obj.id)
+					except:
+						pass
+				new_note.save()
+				print new_note
+	else:
+		new_note = Notification(
+			recipient=recipient,
+			verb = verb, # smart_text
+			sender_content_type = ContentType.objects.get_for_model(sender),
+			sender_object_id = sender.id,
+			)
+		for option in ("target", "action"):
+			obj = kwargs.pop(option, None)
+			if obj is not None:
+				setattr(new_note, "%s_content_type" %option, ContentType.objects.get_for_model(obj))
+				setattr(new_note, "%s_object_id" %option, obj.id)
+		new_note.save()
+		#print new_note
 
 
 notify.connect(new_notification)
