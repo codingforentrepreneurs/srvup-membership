@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.conf.urls.static import static
+
 from django.contrib import admin
 from django.views.generic import TemplateView
 
@@ -15,7 +18,12 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
     url(r'^admin/', include(admin.site.urls)),
-)
+) 
+
+if settings.DEBUG:
+    urlpatterns += patterns('',) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += patterns('',) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 
 #auth login/logout

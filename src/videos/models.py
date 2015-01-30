@@ -18,6 +18,9 @@ class VideoQuerySet(models.query.QuerySet):
 	def featured(self):
 		return self.filter(featured=True)
 
+	def has_embed(self):
+		return self.filter(embed_code__isnull=False).exclude(embed_code__exact="")
+
 
 class VideoManager(models.Manager):
 	def get_queryset(self):
@@ -30,7 +33,8 @@ class VideoManager(models.Manager):
 		return self.get_queryset().active().featured()
 
 	def all(self):
-		return self.get_queryset().active()
+		return self.get_queryset().active().has_embed()
+
 
 
 DEFAULT_MESSAGE = "Check out this awesome video."
@@ -113,6 +117,10 @@ class Category(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("project_detail", kwargs={"cat_slug": self.slug})
+
+	def get_image_url(self):
+		return "%s%s" %(settings.MEDIA_URL, self.image)
+
 
 
 TAG_CHOICES = (
