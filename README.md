@@ -71,6 +71,17 @@ Each Lecture Name is linked to the related source code.
 
 [Add Tags to Models](../../tree/a35bffb426a1bad0a0aa37de2fc11bb3ec036dd1)
 
+[Content Types in Notifications App](../../tree/719b3e398bb621a39bbdb9d41012e5cddfecf1b4)
+
+[Notification Signal Part 1 & 2](../../tree/118fd9f32f81fd26f75f54e58c709dd77c746e93)
+
+[Notification View + Manager +QuerySet](../../tree/f40c50742fe90f8029f3fc2bb2f098efdd561f1b)
+
+[Mark Notification as Read](../../tree/38680e43a58cc79489246752d34f91c3a995d4c0)
+
+[Ajax Notifications](../../tree/943b18cd078618ad44f1f2c47d241cedeea4dbfe)
+
+[Notify Affected Users Part 1 & 2](../../tree/2a732ac3cd4656442c3f969deb02808c6213a12d)
 
 
 
