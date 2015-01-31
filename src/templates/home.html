@@ -4,49 +4,75 @@
 
 <style>
 {% block style %}
-h1 {
-	color: red;
-}
+
 {% endblock %}
 </style>
 
 
+{% block jumbotron %}
+<div class="jumbotron">
+<div class='row'>
+
+<div class='col-sm-6'>
+	
+<h1>Welcome</h1>
+<p>This is our site.</p>
+
+</div>
+<div class='col-sm-6'>
+
+	<div role="tabpanel">
+
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
+	    <li role="presentation"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="register">
+
+	    <div class="panel panel-default">
+  <div class="panel-body">
+    <form method='POST' action='{% url "register" %}'>{% csrf_token %}
+					{{ register_form.as_p }}
+					<input class='btn btn-default btn-block btn-lg' type='submit' value='Register'/>
+					</form>
+  </div>
+</div>
+					
+
+
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="login">
+				<div class="panel panel-default">
+				<div class="panel-body">
+				<form method='POST' action='{% url "login" %}'>{% csrf_token %}
+				{{ login_form.as_p }}
+				<input class='btn btn-default btn-block' type='submit' value='Login'/>
+				</form>
+
+				</div>
+				</div>
+	    </div>
+	  </div>
+
+	</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+{% endblock %}
+
+
+
 {% block content %}
 
-<form method='POST' action=''>{% csrf_token %}
-{{ form.as_p }}
-<input class='btn btn-default' type='submit' value='Register'/>
-</form>
 
-
-
-
-<h1>Hello there {{ the_name }}, {{ number }}</h1>
-
-
-<p>{{ videos }}</p>
-
-{% for video in videos %}
-	<p> {{ forloop.counter }})
-	{{ video.embed_code|safe }}
-	<br/>
-	<a href="{{ video.get_absolute_url }}">{{ video.title }}</a>
-	
-	</p>
-{% endfor %}
-
-
-<br/>
-<br/>
-
-<h1>Mark Safe</h1>
-
-{{ a_code }}
-
-<h1>Embeds</h1>
-{% for embed in the_embeds %}
-
-{{ embed|safe }}
-{% endfor %}
 
 {% endblock %}

@@ -90,6 +90,12 @@ class Video(models.Model):
 		if video is not None:
 			return video.get_absolute_url()
 		return None
+	
+	@property 
+	def has_preview(self):
+		if self.free_preview:
+			return True
+		return False
 
 
 

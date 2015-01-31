@@ -4,14 +4,51 @@
 
 
 
+{% block jumbotron %}
+<div class="jumbotron">
+<div class='row'>
+<div class='col-sm-6'>
+<h1>{{ obj.title }}</h1>
+</div>
+<div class='col-sm-6'>
+<img src='{{ obj.get_image_url }}' class='img-responsive'/>
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+
 {% block content %}
+
+
+
+
+<div class='col-sm-8 col-sm-offset-2'>
+
+{% if queryset %}
+<table class='table'>
+<thead>
+<th>#</th>
+<th>Lecture</th>
+</thead>
 
 {% for item in queryset %}
 
+<tr><td>{{ forloop.counter }}</td><td>{% if request.user.is_authenticated or item.has_preview %}<a href='{{ item.get_absolute_url }}'>{{ item }}</a> {% else %} {{ item }} {% endif %}</td></tr>
 
-
-{{ item.order }} - <a href='{{ item.get_absolute_url }}'>{{ item }}</a><br/>
 
 {% endfor %}
+</table>
+
+{% else %}
+
+<h3 style='text-align:center;'>Project is coming soon.</h3>
+
+{% endif %}
+</div>
+
+
+
 
 {% endblock %}

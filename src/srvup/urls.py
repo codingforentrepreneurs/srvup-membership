@@ -30,6 +30,7 @@ if settings.DEBUG:
 urlpatterns += patterns('accounts.views',
 	url(r'^logout/$', 'auth_logout', name='logout'),
     url(r'^login/$', 'auth_login', name='login'),
+    url(r'^register/$', 'auth_register', name='register'),
 )
 
 
