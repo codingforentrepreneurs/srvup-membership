@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 from accounts.forms import RegisterForm, LoginForm
 from accounts.models import MyUser
 
+from analytics.signals import page_view
+
 from videos.models import Video
 
 
@@ -18,6 +20,10 @@ from videos.models import Video
 
 
 def home(request):
+	page_view.send(
+		request.user,
+		page_path=request.get_full_path()
+		)
 	if request.user.is_authenticated():
 		context = {}
 		#return HttpResponseRedirect('/dashboard/')
