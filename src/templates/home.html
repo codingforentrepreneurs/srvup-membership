@@ -73,6 +73,24 @@
 
 {% block content %}
 
+{% if recent_videos %}
+
+
+{% for vid in recent_videos %}
+
+<a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a><br/>
+<a href="{{ vid.get_absolute_url }}"><img src="{{ vid.category.get_image_url }}" class='img-responsive'/></a><br/>
+{% endfor %}
+{% endif %}
+
+
+
+
+
+
+
+
+
 
 
 {% endblock %}

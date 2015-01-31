@@ -20,12 +20,18 @@ from videos.models import Video
 
 
 def home(request):
+
 	page_view.send(
 		request.user,
 		page_path=request.get_full_path()
 		)
 	if request.user.is_authenticated():
-		context = {}
+		page_view_objs = request.user.pageview_set.get_videos()
+		recent_videos = []
+		for obj in page_view_objs:
+			if not obj.primary_object in recent_videos:
+				recent_videos.append(obj.primary_object)
+		context = {"recent_videos": recent_videos}
 		#return HttpResponseRedirect('/dashboard/')
 	else:
 
