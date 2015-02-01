@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome | {% endblock %}
+
+<style>
+{% block style %}
+
+{% endblock %}
+</style>
+
+
+
+
+{% block content %}
+<div class='row'>
+
+	{% if recent_videos %}
+		<div class='col-sm-4'>
+		<h1>Recent Videos</h1>
+			{% for vid in recent_videos %}
+			<a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a><br/>
+				{% if forloop.counter == 1 %}
+				<a href="{{ vid.get_absolute_url }}"><img src="{{ vid.category.get_image_url }}" class='img-responsive'/></a><br/>
+				{% endif %}
+			{% endfor %}
+
+		</div>
+	{% endif %}
+
+
+	{% if recent_comments %}
+		<div class='col-sm-8'>
+			<h1>Recent Comments</h1>
+			<table class='table'>
+			{% for comment in recent_comments %}
+				<tr><td><a href='{{ comment.get_absolute_url }}'>{{ comment.get_preview }}</a><br/><small>via {{ comment.user }}| {{ comment.timestamp|timesince }} ago</small> </td><td><a href='{{ comment.get_absolute_url }}'>View</a></td></tr>
+			{% endfor %}
+
+			</table>
+		</div>
+	{% endif %}
+
+
+</div>
+
+{% endblock %}

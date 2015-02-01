@@ -30,6 +30,7 @@ FULL_DOMAIN_NAME = 'http://www.codingforentrepreneurs.com'
 LOGIN_URL = "/login/"
 
 AUTH_USER_MODEL = 'accounts.MyUser'
+RECENT_COMMENT_NUMBER = 10
 # Application definition
 
 INSTALLED_APPS = (
