@@ -13,9 +13,10 @@
 
 {% block content %}
 <div class='row'>
-
+<div class='col-sm-4'>
+	<div class='row'>
 	{% if recent_videos %}
-		<div class='col-sm-4'>
+		<div class='col-sm-12'>
 		<h1>Recent Videos</h1>
 			{% for vid in recent_videos %}
 			<a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a><br/>
@@ -23,13 +24,31 @@
 				<a href="{{ vid.get_absolute_url }}"><img src="{{ vid.category.get_image_url }}" class='img-responsive'/></a><br/>
 				{% endif %}
 			{% endfor %}
-
+			<hr/>
 		</div>
 	{% endif %}
 
 
+	{% if popular_videos %}
+		<div class='col-sm-12'>
+		<h1>Popular Videos</h1>
+			{% for vid in popular_videos %}
+			<a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a><br/>
+				{% if forloop.counter == 1 %}
+				<a href="{{ vid.get_absolute_url }}"><img src="{{ vid.category.get_image_url }}" class='img-responsive'/></a><br/>
+				{% endif %}
+			{% endfor %}
+			<hr/>
+		</div>
+	{% endif %}
+	</div>
+</div>
+
+
+<div class='col-sm-8'>
+
 	{% if recent_comments %}
-		<div class='col-sm-8'>
+		
 			<h1>Recent Comments</h1>
 			<table class='table'>
 			{% for comment in recent_comments %}
@@ -37,10 +56,10 @@
 			{% endfor %}
 
 			</table>
-		</div>
+
 	{% endif %}
 
-
+		</div>
 </div>
 
 {% endblock %}
