@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h1>Billing History</h1>
+
+<table class='table'>
+
+<thead>
+<th>Order #</th>
+<th>Amount</th>
+<th>Payment Method</th>
+<th>Date</th>
+</thead>
+{% for object in queryset %}
+<tr>
+<td>{{ object.order_id }}</td>
+<td>${{ object.amount }}</td>
+<td>{{ object.card_type }}{% if object.last_four %}<br/>Last Four Digits: {{ object.last_four }}{% endif %}</td>
+<td>{{ object.timestamp }}</td>
+
+</tr>
+
+
+{% endfor %}
+
+</table>
+{% endblock %}

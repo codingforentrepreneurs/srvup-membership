@@ -29,6 +29,7 @@ if settings.DEBUG:
 #auth login/logout
 urlpatterns += patterns('billing.views',
     url(r'^upgrade/$', 'upgrade', name='account_upgrade'),
+    url(r'^billing/$', 'billing_history', name='billing_history'),
 )
 
 
