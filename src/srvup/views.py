@@ -37,9 +37,11 @@ def home(request):
 		)
 	if request.user.is_authenticated():
 		page_view_objs = request.user.pageview_set.get_videos()[:6]
+
 		recent_videos = []
 		for obj in page_view_objs:
 			if not obj.primary_object in recent_videos:
+				#print obj.primary_object
 				recent_videos.append(obj.primary_object)
 		recent_comments = Comment.objects.recent()
 
@@ -56,7 +58,7 @@ def home(request):
 				popular_videos.append(new_video)
 			except:
 				pass
-		print popular_videos
+		#print popular_videos
 		# one item
 		#PageView.objects.filter(primary_content_type=video_type, primary_object_id=21).count()
 

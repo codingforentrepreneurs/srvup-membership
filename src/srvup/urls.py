@@ -27,6 +27,13 @@ if settings.DEBUG:
 
 
 #auth login/logout
+urlpatterns += patterns('billing.views',
+    url(r'^upgrade/$', 'upgrade', name='account_upgrade'),
+)
+
+
+
+#auth login/logout
 urlpatterns += patterns('accounts.views',
 	url(r'^logout/$', 'auth_logout', name='logout'),
     url(r'^login/$', 'auth_login', name='login'),
