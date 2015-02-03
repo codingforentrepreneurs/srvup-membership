@@ -83,6 +83,37 @@ Each Lecture Name is linked to the related source code.
 
 [Notify Affected Users Part 1 & 2](../../tree/2a732ac3cd4656442c3f969deb02808c6213a12d)
 
+[Update Category List & Images](../../tree/d8f4cadfdc7cd602083af10cb07d163fe44cea86)
+
+[Video Ordering Part 1 & 2](../../tree/5d201bc3f19e5a4ce563489348c75cd4f792237c)
+
+[Register on Homepage & Preview Category / Video](../../tree/bdcb7dbb9612350ff04ea8d5fbac956c2dcc5637)
+
+[Analytics App and for Videos/Category Objects](../../tree/d97efd6affcc50fb6aa79eea31fcf0405d5ea173)
+
+[Using Analytics to Display Recent Content](../../tree/6e8a2e06eb79c93613fcdc8fcab1b3915dcbb8e2)
+
+[Logged in Homepage](../../tree/d8f4cadfdc7cd602083af10cb07d163fe44cea86)
+
+[Popular Videos with Django Aggregation Part 1 & 2](../../tree/31b7fcdf2dcd83330d9eb97982a1a529c53f67f0)
+
+[Membership Model & Billing App](../../tree/463e24489ee659466db97b94c57db16e34e2296f)
+
+[Transaction Model](../../tree/b7a311129c551303df321bdfce8f3608a56d087f)
+
+[Mock Transactions](../../tree/80a52bb1e002397ad03f973a88fa4d023a452940)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
