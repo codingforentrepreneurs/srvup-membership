@@ -1,3 +1,4 @@
+import datetime
 import random
 
 
@@ -6,6 +7,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils import timezone
 # Create your models here.
+
+from .signals import membership_dates_update
 
 
 class Membership(models.Model):
@@ -33,6 +36,29 @@ def update_membership_status(sender, instance, created, **kwargs):
 post_save.connect(update_membership_status, sender=Membership)
 
 
+
+def update_membership_dates(sender, new_date_start, **kwargs):
+	membership = sender 
+	current_date_end = membership.date_end
+	if current_date_end >= new_date_start:
+		#append new_start date plus offset to date end of the instance
+		membership.date_end = current_date_end + datetime.timedelta(days=30, hours=10)
+		membership.save()
+		
+	else:
+		#set a new start date and new end date with the same offset.
+		membership.date_start = new_date_start
+		membership.date_end = new_date_start + datetime.timedelta(days=30, hours=10)
+		membership.save()
+	# membership.update_status()
+
+
+
+membership_dates_update.connect(update_membership_dates)
+
+
+
+
 class TransactionManager(models.Manager):
 	def create_new(self, user, transaction_id, amount, card_type,\
 		success=None, transaction_status=None, last_four=None):
@@ -54,7 +80,7 @@ class TransactionManager(models.Manager):
 		if last_four is not None:
 			new_trans.last_four = last_four
 		new_trans.save(using=self._db)
-		return new_trans.order_id
+		return new_trans
 
 
 
