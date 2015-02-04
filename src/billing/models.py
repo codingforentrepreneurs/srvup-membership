@@ -11,6 +11,9 @@ from django.utils import timezone
 from .signals import membership_dates_update
 
 
+
+
+
 class Membership(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	date_end = models.DateTimeField(default=timezone.now(), verbose_name='End Date')
@@ -106,6 +109,13 @@ class Transaction(models.Model):
 
 
 
+class UserMerchantId(models.Model):
+	user = models.OneToOneField(settings.AUTH_USER_MODEL)
+	customer_id = models.CharField(max_length=120)
+	merchant_name = models.CharField(max_length=120, default="Braintree")
+
+	def __unicode__(self):
+		return self.customer_id
 
 
 

@@ -1,6 +1,7 @@
 Django==1.7.2
 Pillow==2.7.0
 PyJWT==0.4.1
+braintree==3.10.0
 django-crispy-forms==1.4.0
 oauthlib==0.7.2
 python-openid==2.2.5
