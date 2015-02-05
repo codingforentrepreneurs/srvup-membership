@@ -103,9 +103,15 @@ Each Lecture Name is linked to the related source code.
 
 [Mock Transactions](../../tree/80a52bb1e002397ad03f973a88fa4d023a452940)
 
+[Membership Dates](../../tree/1cd0a9ae70d91ba4dc46f17ecfd00e937269a8f0)
 
+[Braintree Payments](../../tree/ecd7d80ebf3bb3e465f92a79786bfaef2a0aade2)
 
+[Braintree Front End](../../tree/1441566c7a0e8e6d7784015b9c46922dc07700b3)
 
+[Charge Subscription](../../tree/33037009278967315ab010f82569899ecf23c708)
+
+[Accept Paypal & Credit Cards](../../tree/758707719edd2c695b744d33ab89a73930eb5933)
 
 
 
