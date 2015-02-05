@@ -8,6 +8,13 @@ braintree.setup("{{ client_token }}", "dropin", {
 	form: "checkoutForm"
 });
 
+$("#submitPayment").on("click", function(){
+	var btn = $(this).button("loading")
+	setTimeout(function(){
+		btn.button('reset');
+	}, 3500)
+});
+
 {% endblock %}
 </script>
 
@@ -20,7 +27,7 @@ Upgrade your account!
 
 <div id='checkout' style='min-height: 350px;'></div>
 
-<input type='submit' class='btn btn-default btn-block' value='Complete upgrade' />
+<input id='submitPayment' type='submit' data-loading-text="Completing..." class='btn btn-default btn-block' value='Complete upgrade' autocomplete="off" />
 </form>
 </div>
 {% endblock %}

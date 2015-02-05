@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     #url(r'^about/$', TemplateView.as_view(template_name='base.html'), name='home'),
     #url(r'^pricing/$', TemplateView.as_view(template_name='base.html'), name='home'),
-    #url(r'^contact_us/$', TemplateView.as_view(template_name='pricing.html'), name='home'),
+    url(r'^contact_us/$', TemplateView.as_view(template_name='pricing.html'), name='contact_us'),
     url(r'^$', 'srvup.views.home', name='home'),
     url(r'^staff/$', 'srvup.views.staff_home', name='staff'),
     #url(r'^about/about/about/$', 'srvup.views.home', name='about'),

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -37,11 +38,11 @@ def upgrade(request):
 				print """Customer created with id = {0}""".format(new_customer_result.customer.id)
 			else:
 				print "Error: {0}".format(new_customer_result.message)
-				#redirect somewhere??
+				messages.error(request, "There was an error with your account. Please contact us.")
+				return redirect("contact_us")
 		except:
-			#some error occured
-			#redirect somewhere
-			pass
+			messages.error(request, "There was an error with the server. Please try agin or contact us if the problem persists.")
+			return redirect("contact_us")
 
 		merchant_customer_id = merchant_obj.customer_id
 		if request.method == "POST":
@@ -54,6 +55,9 @@ def upgrade(request):
 							"make_default": True
 						}
 					})
+				if not payment_method_result.is_success:
+					messages.error(request, "An error occured: %s" %(payment_method_result.message))
+					return redirect("upgrade")
 				the_token = payment_method_result.payment_method.token
 				subscription_result = braintree.Subscription.create({
 					"payment_method_token": the_token,
@@ -64,10 +68,10 @@ def upgrade(request):
 					trans_id = subscription_result.subscription.transactions[0].id
 					sub_id = subscription_result.subscription.id
 					sub_amount = subscription_result.subscription.price
-					if payment_type == "paypal_acccount":
-						trans = Transaction.objects.create_new(request.user,trans_id, sub_amount, "PayPal")
+					if payment_type == braintree.PaymentInstrumentType.PayPalAccount:
+						trans = Transaction.objects.create_new(request.user, trans_id, sub_amount, "PayPal")
 						trans_success = trans.success
-					elif payment_type == "credit_card":
+					elif payment_type ==braintree.PaymentInstrumentType.CreditCard:
 						credit_card_details = subscription_result.subscription.transactions[0].credit_card_details
 						card_type = credit_card_details.card_type
 						last_4 = credit_card_details.last_4
@@ -79,29 +83,15 @@ def upgrade(request):
 					if trans_success:
 						membership_instance, created = Membership.objects.get_or_create(user=request.user)
 						membership_dates_update.send(membership_instance, new_date_start=trans.timestamp)
+						messages.success(request, "Welcome to Srvup. Your membership has been activated.")
+						return redirect("billing_history")
+
+					else:
+						messages.error(request, "There was an error with your transaction, please contact us.")
+						return redirect("contact_us")
 				else:
-					print subscription.message
-
-				# customer_update_result = braintree.Customer.update(merchant_customer_id, {
-				# 	"payment_method_nonce": nonce
-				# 	})
-
-				# credit_card_token = customer_update_result.customer.credit_cards[0].token
-				# subscription_result = braintree.Subscription.create({
-				# 		"payment_method_token": credit_card_token,
-				# 		"plan_id": PLAN_ID
-				# 	})
-				# if subscription_result.is_success:
-				# 	trans_id = subscription_result.subscription.id
-				# 	trans = Transaction.objects.create_new(request.user,trans_id,25.00, "visa")
-				# 	if trans.success:
-				# 		membership_instance, created = Membership.objects.get_or_create(user=request.user)
-				# 		membership_dates_update.send(membership_instance, new_date_start=trans.timestamp)
-				# else:
-				# 	print "failed"
-					
-				# customer_card = braintree.Customer.find(merchant_customer_id).credit_cards[0].token
-
+					messages.error(request, "An error occured: %s" %(subscription_result.message))
+					return redirect("upgrade")
 			
 	context =  {"client_token":client_token}
 
