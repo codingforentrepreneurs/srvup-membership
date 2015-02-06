@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect
 
@@ -11,9 +12,9 @@ import random
 import braintree
 
 braintree.Configuration.configure(braintree.Environment.Sandbox,
-                                  merchant_id="3j27nwdw8mbvk68y",
-                                  public_key="64zrsxstnhykn4v2",
-                                  private_key="5507587264ea632357cad014f69ed78f")
+                                  merchant_id=settings.BRAINTREE_MERCHANT_ID,
+                                  public_key=settings.BRAINTREE_PUBLIC_KEY,
+                                  private_key=settings.BRAINTREE_PRIVATE_KEY)
 
 
 PLAN_ID = "monthly_plan"
@@ -27,21 +28,9 @@ def upgrade(request):
 	client_token = braintree.ClientToken.generate()
 	if request.user.is_authenticated():
 		try:
-			#something to get the current customer id stored somewhere 
 			merchant_obj = UserMerchantId.objects.get(user=request.user)
-		except UserMerchantId.DoesNotExist:
-			new_customer_result = braintree.Customer.create({})
-			if new_customer_result.is_success:
-				merchant_obj, created = UserMerchantId.objects.get_or_create(user=request.user)
-				merchant_obj.customer_id = new_customer_result.customer.id
-				merchant_obj.save()
-				print """Customer created with id = {0}""".format(new_customer_result.customer.id)
-			else:
-				print "Error: {0}".format(new_customer_result.message)
-				messages.error(request, "There was an error with your account. Please contact us.")
-				return redirect("contact_us")
-		except:
-			messages.error(request, "There was an error with the server. Please try agin or contact us if the problem persists.")
+		except :
+			messages.error(request, "There was an error with your account. Please contact us.")
 			return redirect("contact_us")
 
 		merchant_customer_id = merchant_obj.customer_id

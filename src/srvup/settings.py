@@ -126,6 +126,10 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "media")
 
 
 
+#braintree info
+BRAINTREE_MERCHANT_ID ="3j27nwdw8mbvk68y"
+BRAINTREE_PUBLIC_KEY = "64zrsxstnhykn4v2"
+BRAINTREE_PRIVATE_KEY = "5507587264ea632357cad014f69ed78f"
 
 
 

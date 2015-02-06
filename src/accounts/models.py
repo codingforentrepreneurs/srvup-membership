@@ -1,10 +1,22 @@
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils import timezone
 
-from billing.models import Membership
+
+import braintree
+
+braintree.Configuration.configure(braintree.Environment.Sandbox,
+                                  merchant_id=settings.BRAINTREE_MERCHANT_ID,
+                                  public_key=settings.BRAINTREE_PUBLIC_KEY,
+                                  private_key=settings.BRAINTREE_PRIVATE_KEY)
+
+
+
+
+from billing.models import Membership, UserMerchantId
 from notifications.signals import notify
 
 class MyUserManager(BaseUserManager):
@@ -140,11 +152,27 @@ class UserProfile(models.Model):
 def new_user_receiver(sender, instance, created, *args, **kwargs):
 	if created:
 		new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
-		print new_profile, is_created
+		#print new_profile, is_created
 		notify.send(instance, 
 					recipient=MyUser.objects.get(username='jmitchel3'), #admin user
 					verb='New user created.')
 		# merchant account customer id -- stripe vs braintree
+	try:
+		merchant_obj = UserMerchantId.objects.get(user=request.user)
+	except:
+		new_customer_result = braintree.Customer.create({
+				"email": instance.email
+			})
+		if new_customer_result.is_success:
+			merchant_obj, created = UserMerchantId.objects.get_or_create(user=instance)
+			merchant_obj.customer_id = new_customer_result.customer.id
+			merchant_obj.save()
+			print """Customer created with id = {0}""".format(new_customer_result.customer.id)
+		else:
+			print "Error: {0}".format(new_customer_result.message)
+			messages.error(request, "There was an error with your account. Please contact us.")
+
+		
 		# send email for verifying user email
 
 post_save.connect(new_user_receiver, sender=MyUser)

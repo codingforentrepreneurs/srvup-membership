@@ -123,7 +123,7 @@ def new_notification(sender, **kwargs):
 	recipient = kwargs.pop("recipient")
 	verb = kwargs.pop("verb")
 	#verb = kwargs["verb"]
-	affected_users = kwargs.pop('affected_users')
+	affected_users = kwargs.pop('affected_users', None)
 	#print "affected users are"
 	#print affected_users
 	#print sender
