@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+from django.utils import timezone
 # Create your views here.
 
 from .models import  Membership, Transaction, UserMerchantId
@@ -83,8 +83,13 @@ def upgrade(request):
 					did_create_sub = True
 
 
+				if did_create_sub or did_update_sub:
+					membership_instance, created = Membership.objects.get_or_create(user=request.user)
+
+
 				if did_update_sub and not did_create_sub:
 					messages.success(request, "Your plan has been updated")
+					membership_dates_update.send(membership_instance, new_date_start=timezone.now())
 					return redirect("billing_history")
 				elif did_create_sub and not did_update_sub:
 					merchant_obj.subscription_id = create_sub.subscription.id
@@ -107,6 +112,8 @@ def upgrade(request):
 						trans_timestamp = trans.timestamp
 					else:
 						trans_success = False
+					membership_dates_update.send(membership_instance, new_date_start=trans_timestamp)
+
 					messages.success(request, "Welcome to our service")
 					return redirect("billing_history")
 				else:
