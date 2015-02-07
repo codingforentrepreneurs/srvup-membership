@@ -25,15 +25,19 @@ def billing_history(request):
 
 
 def upgrade(request):
-	client_token = braintree.ClientToken.generate()
+	
 	if request.user.is_authenticated():
 		try:
 			merchant_obj = UserMerchantId.objects.get(user=request.user)
 		except :
 			messages.error(request, "There was an error with your account. Please contact us.")
 			return redirect("contact_us")
-
 		merchant_customer_id = merchant_obj.customer_id
+		print merchant_customer_id
+		client_token = braintree.ClientToken.generate({
+				"customer_id": merchant_customer_id
+			})
+		#print client_token
 		if request.method == "POST":
 			nonce = request.POST.get("payment_method_nonce", None)
 			if nonce is not None:
@@ -46,13 +50,40 @@ def upgrade(request):
 					})
 				if not payment_method_result.is_success:
 					messages.error(request, "An error occured: %s" %(payment_method_result.message))
-					return redirect("upgrade")
+					return redirect("account_upgrade")
+
 				the_token = payment_method_result.payment_method.token
-				subscription_result = braintree.Subscription.create({
-					"payment_method_token": the_token,
-					"plan_id": PLAN_ID
-				})
-				if subscription_result.is_success:
+				current_sub_id = merchant_obj.subscription_id
+				current_plan_id = merchant_obj.plan_id
+				sub_new = False
+				if current_sub_id is not None and current_plan_id is not None:
+					#update our plan
+					current_subscription = braintree.Subscription.find(current_sub_id)
+					print current_subscription
+					if current_subscription.status == "Active":
+						update_plan = braintree.Subscription.update(current_sub_id, {
+								"payment_method_token": the_token,
+							})
+						if update_plan.is_success:
+							messages.success(request, "Your plan has been updated")
+							return redirect("billing_history")
+					else:
+						subscription_result = braintree.Subscription.create({
+							"payment_method_token": the_token,
+							"plan_id": PLAN_ID
+						})
+						sub_new = subscription_result.is_success
+				else:
+					subscription_result = braintree.Subscription.create({
+						"payment_method_token": the_token,
+						"plan_id": PLAN_ID
+					})
+					sub_new = subscription_result.is_success
+
+				if sub_new:
+					merchant_obj.subscription_id = subscription_result.subscription.id
+					merchant_obj.plan_id = PLAN_ID
+					merchant_obj.save()
 					payment_type = subscription_result.subscription.transactions[0].payment_instrument_type
 					trans_id = subscription_result.subscription.transactions[0].id
 					sub_id = subscription_result.subscription.id
@@ -80,11 +111,11 @@ def upgrade(request):
 						return redirect("contact_us")
 				else:
 					messages.error(request, "An error occured: %s" %(subscription_result.message))
-					return redirect("upgrade")
+					return redirect("account_upgrade")
 			
-	context =  {"client_token":client_token}
+		context =  {"client_token":client_token}
 
-	return render(request, "billing/upgrade.html",context)
+		return render(request, "billing/upgrade.html",context)
 
 
 

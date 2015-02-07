@@ -158,7 +158,7 @@ def new_user_receiver(sender, instance, created, *args, **kwargs):
 					verb='New user created.')
 		# merchant account customer id -- stripe vs braintree
 	try:
-		merchant_obj = UserMerchantId.objects.get(user=request.user)
+		merchant_obj = UserMerchantId.objects.get(user=instance)
 	except:
 		new_customer_result = braintree.Customer.create({
 				"email": instance.email

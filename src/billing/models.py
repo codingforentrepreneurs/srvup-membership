@@ -112,6 +112,8 @@ class Transaction(models.Model):
 class UserMerchantId(models.Model):
 	user = models.OneToOneField(settings.AUTH_USER_MODEL)
 	customer_id = models.CharField(max_length=120)
+	subscription_id = models.CharField(max_length=120, null=True, blank=True)
+	plan_id = models.CharField(max_length=120, null=True, blank=True)
 	merchant_name = models.CharField(max_length=120, default="Braintree")
 
 	def __unicode__(self):
