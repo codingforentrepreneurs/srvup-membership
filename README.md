@@ -121,8 +121,7 @@ Each Lecture Name is linked to the related source code.
 
 [Unique Subscription Part 2](../../tree/57c0a3493cb0b32cc8e0f9241d61ee9e115d51ce)
 
-
-
+[Using Github to Fix Membership Error](../../tree/f119937c8101023bded5d437742937af640142f3)
 
 
 
