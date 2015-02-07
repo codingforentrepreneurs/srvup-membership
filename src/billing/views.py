@@ -40,7 +40,10 @@ def upgrade(request):
 		#print client_token
 		if request.method == "POST":
 			nonce = request.POST.get("payment_method_nonce", None)
-			if nonce is not None:
+			if nonce is None:
+				messages.error(request, "An error occued, please try again")
+				return redirect("account_upgrade")
+			else:
 				payment_method_result = braintree.PaymentMethod.create({
 						"customer_id": merchant_customer_id,
 						"payment_method_nonce": nonce,
@@ -55,64 +58,62 @@ def upgrade(request):
 				the_token = payment_method_result.payment_method.token
 				current_sub_id = merchant_obj.subscription_id
 				current_plan_id = merchant_obj.plan_id
-				sub_new = False
-				if current_sub_id is not None and current_plan_id is not None:
-					#update our plan
+				did_create_sub = False
+				did_update_sub = False
+				trans_success = False
+				trans_timestamp = None
+
+				try:
 					current_subscription = braintree.Subscription.find(current_sub_id)
-					print current_subscription
-					if current_subscription.status == "Active":
-						update_plan = braintree.Subscription.update(current_sub_id, {
+					sub_status = current_subscription.status
+				except:
+					current_subscription = None
+					sub_status = None
+
+				if current_subscription and sub_status == "Active":
+					update_sub = braintree.Subscription.update(current_sub_id, {
 								"payment_method_token": the_token,
 							})
-						if update_plan.is_success:
-							messages.success(request, "Your plan has been updated")
-							return redirect("billing_history")
-					else:
-						subscription_result = braintree.Subscription.create({
+					did_update_sub = True
+				else:
+					create_sub = braintree.Subscription.create({
 							"payment_method_token": the_token,
 							"plan_id": PLAN_ID
 						})
-						sub_new = subscription_result.is_success
-				else:
-					subscription_result = braintree.Subscription.create({
-						"payment_method_token": the_token,
-						"plan_id": PLAN_ID
-					})
-					sub_new = subscription_result.is_success
+					did_create_sub = True
 
-				if sub_new:
-					merchant_obj.subscription_id = subscription_result.subscription.id
+
+				if did_update_sub and not did_create_sub:
+					messages.success(request, "Your plan has been updated")
+					return redirect("billing_history")
+				elif did_create_sub and not did_update_sub:
+					merchant_obj.subscription_id = create_sub.subscription.id
 					merchant_obj.plan_id = PLAN_ID
 					merchant_obj.save()
-					payment_type = subscription_result.subscription.transactions[0].payment_instrument_type
-					trans_id = subscription_result.subscription.transactions[0].id
-					sub_id = subscription_result.subscription.id
-					sub_amount = subscription_result.subscription.price
+					payment_type = create_sub.subscription.transactions[0].payment_instrument_type
+					trans_id = create_sub.subscription.transactions[0].id
+					sub_id = create_sub.subscription.id
+					sub_amount = create_sub.subscription.price
 					if payment_type == braintree.PaymentInstrumentType.PayPalAccount:
 						trans = Transaction.objects.create_new(request.user, trans_id, sub_amount, "PayPal")
 						trans_success = trans.success
+						trans_timestamp = trans.timestamp
 					elif payment_type ==braintree.PaymentInstrumentType.CreditCard:
-						credit_card_details = subscription_result.subscription.transactions[0].credit_card_details
+						credit_card_details = create_sub.subscription.transactions[0].credit_card_details
 						card_type = credit_card_details.card_type
 						last_4 = credit_card_details.last_4
 						trans = Transaction.objects.create_new(request.user,trans_id, sub_amount, card_type, last_four=last_4)
 						trans_success = trans.success
+						trans_timestamp = trans.timestamp
 					else:
 						trans_success = False
-
-					if trans_success:
-						membership_instance, created = Membership.objects.get_or_create(user=request.user)
-						membership_dates_update.send(membership_instance, new_date_start=trans.timestamp)
-						messages.success(request, "Welcome to Srvup. Your membership has been activated.")
-						return redirect("billing_history")
-
-					else:
-						messages.error(request, "There was an error with your transaction, please contact us.")
-						return redirect("contact_us")
+					messages.success(request, "Welcome to our service")
+					return redirect("billing_history")
 				else:
-					messages.error(request, "An error occured: %s" %(subscription_result.message))
+					messages.error(request, "An error occued, please try again")
 					return redirect("account_upgrade")
-			
+
+		
 		context =  {"client_token":client_token}
 
 		return render(request, "billing/upgrade.html",context)
