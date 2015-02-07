@@ -113,10 +113,13 @@ Each Lecture Name is linked to the related source code.
 
 [Accept Paypal & Credit Cards](../../tree/758707719edd2c695b744d33ab89a73930eb5933)
 
+[Redirects and Improvements](../../tree/d65e6c39558944431f6a34799c798316a8cb9c7b)
 
+[Post Save for Braintree ID](../../tree/e4beb1082e6fdc2473888f94634267fee560bf5a)
 
+[Unique Subscription Part 1](../../tree/81310e894e8f701ab6a91c4b0a6f852431ffa31a)
 
-
+[Unique Subscription Part 2](../../tree/57c0a3493cb0b32cc8e0f9241d61ee9e115d51ce)
 
 
 
