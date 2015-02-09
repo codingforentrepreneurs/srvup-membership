@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 from django.utils import timezone
 # Create your views here.
 
@@ -19,10 +19,54 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 
 PLAN_ID = "monthly_plan"
 
+
+
+def get_or_create_model_transaction(user, braintree_transaction):
+	trans_id = braintree_transaction.id
+	try:
+		trans = Transaction.objects.get(user=user, transaction_id=trans_id)
+		created = False
+	except:
+		created = True
+		payment_type = braintree_transaction.payment_instrument_type
+		amount = braintree_transaction.amount
+		if payment_type == braintree.PaymentInstrumentType.PayPalAccount:
+			trans = Transaction.objects.create_new(user, trans_id, amount, "PayPal")
+		elif payment_type ==braintree.PaymentInstrumentType.CreditCard:
+			credit_card_details = braintree_transaction.credit_card_details
+			card_type = credit_card_details.card_type
+			last_4 = credit_card_details.last_4
+			trans = Transaction.objects.create_new(user,trans_id, amount, card_type, last_four=last_4)
+		else:
+			created = False
+			trans = None
+	return trans, created
+
+
+def update_transactions(user):
+	bt_transactions = braintree.Transaction.search(
+				braintree.TransactionSearch.customer_id == user.usermerchantid.customer_id
+			)
+	try:
+		django_transactions = user.transaction_set.all()
+	except:
+		django_transactions = None
+
+	if bt_transactions is not None and django_transactions is not None:
+		if bt_transactions.maximum_size <= django_transactions.count():
+			pass
+		else:
+			for bt_tran in bt_transactions.items:
+				new_tran, created = get_or_create_model_transaction(user, bt_tran)
+
+
 def billing_history(request):
-	
-	history = Transaction.objects.filter(user=request.user).filter(success=True)
-	return render(request, "billing/history.html", {"queryset": history})
+	if request.user.is_authenticated():
+		update_transactions(request.user)
+		history = Transaction.objects.filter(user=request.user).filter(success=True)
+		return render(request, "billing/history.html", {"queryset": history})
+	else:
+		raise Http404
 
 
 def upgrade(request):
@@ -96,23 +140,15 @@ def upgrade(request):
 					merchant_obj.subscription_id = create_sub.subscription.id
 					merchant_obj.plan_id = PLAN_ID
 					merchant_obj.save()
-					payment_type = create_sub.subscription.transactions[0].payment_instrument_type
-					trans_id = create_sub.subscription.transactions[0].id
-					sub_id = create_sub.subscription.id
-					sub_amount = create_sub.subscription.price
-					if payment_type == braintree.PaymentInstrumentType.PayPalAccount:
-						trans = Transaction.objects.create_new(request.user, trans_id, sub_amount, "PayPal")
-						trans_success = trans.success
-						trans_timestamp = trans.timestamp
-					elif payment_type ==braintree.PaymentInstrumentType.CreditCard:
-						credit_card_details = create_sub.subscription.transactions[0].credit_card_details
-						card_type = credit_card_details.card_type
-						last_4 = credit_card_details.last_4
-						trans = Transaction.objects.create_new(request.user,trans_id, sub_amount, card_type, last_four=last_4)
-						trans_success = trans.success
-						trans_timestamp = trans.timestamp
-					else:
-						trans_success = False
+
+					bt_tran = create_sub.subscription.transactions[0]
+					new_tran, created = get_or_create_model_transaction(request.user, bt_tran)
+					trans_success = False
+					trans_timestamp = None
+					if created:
+						trans_timestamp = new_tran.timestamp
+						trans_success = new_tran.success
+
 					membership_dates_update.send(membership_instance, new_date_start=trans_timestamp)
 
 					messages.success(request, "Welcome to our service")
