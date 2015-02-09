@@ -20,6 +20,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 PLAN_ID = "monthly_plan"
 
 def billing_history(request):
+	
 	history = Transaction.objects.filter(user=request.user).filter(success=True)
 	return render(request, "billing/history.html", {"queryset": history})
 
