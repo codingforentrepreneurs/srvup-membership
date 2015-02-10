@@ -23,9 +23,45 @@
 	  min-height: 2000px;
 	}
 
+  .navbar-default {
+  margin-bottom: 0px;
+}
+
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.container-fluid .jumbotron {
+  border-radius: 0px;
+}
+
+/*
 	.navbar-static-top {
 	  margin-bottom: 19px;
-	}
+	}*/
+
+  .navbar-default {
+    background-color: #005880;
+    border-color: #256582;
+    background-image: url("http://www.transparenttextures.com/patterns/batthern.png");
+  }
+
+  .navbar-default .navbar-nav>li>a {
+  color: #C5C5C5;
+  }
+  .navbar-default .navbar-nav>li>a:hover {
+  color: #FFFFFF;
+  }
+  .navbar-default .navbar-brand {
+  color: #FFFFFF;
+  }
+  .navbar-default .navbar-brand:hover {
+  color: #256582;
+  }
+
+  
+
 	{% block style %}
 
 	{% endblock %}
@@ -37,8 +73,9 @@
   <body>
 
   {% include 'navbar.html' %}
+  
   {% block jumbotron %}
-    {% endblock %}
+  {% endblock %}
 
     <div class="container">
     

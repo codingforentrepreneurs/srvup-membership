@@ -5,7 +5,9 @@
 
 
 {% block jumbotron %}
+<div class='container-fluid'>
 <div class="jumbotron">
+<div class='container'>
 <div class='row'>
 <div class='col-sm-6'>
 <h1>{{ obj.title }}</h1>
@@ -14,6 +16,8 @@
 <img src='{{ obj.get_image_url }}' class='img-responsive'/>
 </div>
 
+</div>
+</div>
 </div>
 </div>
 {% endblock %}
