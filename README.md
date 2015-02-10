@@ -123,5 +123,19 @@ Each Lecture Name is linked to the related source code.
 
 [Using Github to Fix Membership Error](../../tree/f119937c8101023bded5d437742937af640142f3)
 
+[Braintree Status](../../tree/2e564438205d573c062ace9fc888bec2fee21daf)
+
+[Braintree Billing History](../../tree/3db2526b2c11a9e2c23850472678183179929b5b)
+
+[Fix Minor Usability Errors](../../tree/889cada1faae22557ec897bf5e7645cf7c665bd6)
+
+[Homepage Update Part 1](../../tree/c52e61d0513d970f9b95d7a4bf663759de3a7b43)
+
+[Homepage Update Part 2](../../tree/591938b0b4046426436272483859366ddf77519a)
+
+[Homepage Update Part 3](../../tree/f5ab66154a1425005b5cefbef116b667bb9652cf)
+
+
+
 
 
