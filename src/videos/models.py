@@ -29,7 +29,7 @@ class VideoManager(models.Manager):
 	def get_queryset(self):
 		return VideoQuerySet(self.model, using=self._db)
 
-	def get_featured(self, user, kabc=None):
+	def get_featured(self):
 		#Video.objects.get_featured(user, kabc="something")
 		#Video.objects.filter(featured=True)
 		#return super(VideoManager, self).filter(featured=True)
@@ -158,7 +158,7 @@ class CategoryManager(models.Manager):
 	def get_queryset(self):
 		return CategoryQuerySet(self.model, using=self._db)
 
-	def get_featured(self, user, kabc=None):
+	def get_featured(self):
 		#Video.objects.get_featured(user, kabc="something")
 		#Video.objects.filter(featured=True)
 		#return super(VideoManager, self).filter(featured=True)

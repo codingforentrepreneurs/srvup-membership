@@ -73,15 +73,92 @@
 
 {% block content %}
 
-{% if recent_videos %}
 
 
-{% for vid in recent_videos %}
+<div class='row'>
 
-<a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a><br/>
-<a href="{{ vid.get_absolute_url }}"><img src="{{ vid.category.get_image_url }}" class='img-responsive'/></a><br/>
-{% endfor %}
+
+{% if featured_categories %}
+
+
+
+
+
+<div class='col-sm-6'>
+	<h1>Featured Categories</h1>
+	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+	  <!-- Indicators -->
+	  <ol class="carousel-indicators">
+	  {% for cat in featured_categories %}
+	    <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.count }}" class="{% if forloop.first %} active {% endif %}"></li>
+	    {% endfor %}
+	  </ol>
+
+	  <!-- Wrapper for slides -->
+	 
+
+	  <div class="carousel-inner" role="listbox">
+	   {% for cat in featured_categories %}
+	    <div class="item {% if forloop.first %} active {% endif %}">
+	    <a href="{{ cat.get_absolute_url }}">
+	      <img src="{{ cat.get_image_url }}" class='img-responsive'>
+	      </a>
+	      <!-- <div class="carousel-caption">
+	        <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+	      </div> -->
+	    </div>
+	    {% endfor %}
+	  </div>
+
+	  <!-- Controls -->
+	  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+	    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+	    <span class="sr-only">Previous</span>
+	  </a>
+	  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+	    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+	    <span class="sr-only">Next</span>
+	  </a>
+	</div>
+</div>
+
+
+
+
+
+
 {% endif %}
+
+
+{% if featured_videos %}
+
+<div class='col-sm-6'>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Featured Videos</h3>
+  </div>
+    <table class='table'>
+{% for vid in featured_videos %}
+<tr><td><a href="{{ vid.get_absolute_url }}">{{ vid.title }}</a> {% if vid.free_preview %}Free Preview{% endif %}</td></tr>
+{% endfor %}
+  
+  </table>
+</div>
+
+</div>
+
+{% endif %}
+
+
+
+
+
+</div>
+
+
+
+
 
 
 
