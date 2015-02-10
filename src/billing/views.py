@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, Http404
+
 from django.utils import timezone
 # Create your views here.
 
@@ -69,8 +71,8 @@ def billing_history(request):
 		raise Http404
 
 
+@login_required
 def upgrade(request):
-	
 	if request.user.is_authenticated():
 		try:
 			merchant_obj = UserMerchantId.objects.get(user=request.user)

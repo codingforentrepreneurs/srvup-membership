@@ -15,7 +15,10 @@ from .utils import check_membership_status, update_braintree_membership
 
 
 def user_logged_in_receiver(sender, user, **kwargs):
-	update_braintree_membership(user)
+	try:
+		update_braintree_membership(user)
+	except:
+		pass
 
 user_logged_in.connect(user_logged_in_receiver)
 
