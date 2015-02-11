@@ -101,21 +101,25 @@
 	<div role="tabpanel">
 
 	  <!-- Nav tabs -->
-	  <ul class="nav nav-tabs" role="tablist">
-	    <li role="presentation" class="active"><a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
-	    <li role="presentation"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+	  <ul class="nav nav-tabs nav-tabs-jumbotron" role="tablist">
+	    <li role="presentation" class="active">
+	    	<a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
+	    <li role="presentation">
+	    	<a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
 	  </ul>
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="register">
 
-	    <div class="panel panel-default">
+	    <div class="panel panel-jumbotron panel-default">
   <div class="panel-body">
     <form method='POST' action='{% url "register" %}'>{% csrf_token %}
 					{{ register_form.as_p }}
 					<input class='btn btn-default btn-block btn-lg' type='submit' value='Register'/>
 					</form>
+					<br/>
+					<p>By registering you agree to our <a href='#'>terms</a></p>
   </div>
 </div>
 					
@@ -123,7 +127,7 @@
 
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="login">
-				<div class="panel panel-default">
+				<div class="panel panel-jumbotron panel-default">
 				<div class="panel-body">
 				<form method='POST' action='{% url "login" %}'>{% csrf_token %}
 				{{ login_form.as_p }}
