@@ -20,9 +20,18 @@
     <!-- Custom styles for this template -->
     <style>
     body {
-	  min-height: 2000px;
+	  /*min-height: 2000px;*/
 	}
-
+  .main-container {
+    min-height: 950px;
+  }
+  .footer {
+    background-color:#C5c5c5;
+    min-height: 50px;
+    padding: 20px 0px;
+    text-align: center;
+    margin-top: 50px;
+  }
   .navbar-default {
   margin-bottom: 0px;
 }
@@ -88,6 +97,8 @@
     
   }
 
+
+
 	{% block style %}
 
 	{% endblock %}
@@ -103,7 +114,7 @@
   {% block jumbotron %}
   {% endblock %}
 
-    <div class="container">
+    <div class="container main-container">
     
 
     <div id='notificationsLoader'>
@@ -130,6 +141,8 @@
       </div> -->
 
     </div> <!-- /container -->
+
+    {% include 'footer.html' %}
 
     {% include 'javascript.html' %}
     <script>
