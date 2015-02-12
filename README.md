@@ -135,7 +135,9 @@ Each Lecture Name is linked to the related source code.
 
 [Homepage Update Part 3](../../tree/f5ab66154a1425005b5cefbef116b667bb9652cf)
 
+[Homepage Update Part 4](../../tree/aac0f8a88a0922b6c309cda92671b9739b641539)
 
+[Add a Footer](../../tree/b8827a10cc420da330d7ff137d16ed58df43256e)
 
-
+[Video Services](../../tree/6524597525649f87bf36d7e9fb6ba01c35fe096f)
 
