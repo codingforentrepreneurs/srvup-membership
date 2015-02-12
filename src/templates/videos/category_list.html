@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load future %}
 
 {% block title %}{% endblock %}
 
@@ -6,10 +7,35 @@
 
 {% block content %}
 
+<div class='row'>
+<div class='col-sm-12'>
+<h1>Categories</h1>
+</div>
+</div>
+
+
+
+
+<div class='row'>
+
 {% for item in queryset %}
+<div class='col-sm-6'>
 
 <a href='{{ item.get_absolute_url }}'>{{ item }}</a> <br/>
 <a href='{{ item.get_absolute_url }}'><img src='{{ item.get_image_url }}' class='img-responsive' /></a> <br/>
+</div>
+
+{% cycle '' '<div class=\'col-sm-12\'><hr/></div>' %}
+
+{% if forloop.counter|divisibleby:10 %}
+
+</div><div class="row">
+
+{% endif %}
+
+
 {% endfor %}
+
+</div>
 
 {% endblock %}

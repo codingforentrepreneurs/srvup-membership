@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
@@ -44,8 +46,11 @@ def video_detail(request, cat_slug, vid_slug):
 		return HttpResponseRedirect("%s?next=%s"%(reverse('login'), next_url))
 
 
+
 def category_list(request):
 	queryset = Category.objects.all()
+	# queryset2 = Category.objects.all()
+	# queryset3 = list(chain(queryset,queryset2))
 	context = {
 		"queryset": queryset,
 	}

@@ -54,8 +54,42 @@ $('.reply_btn').click(function(e){
 
 
 {% block content %}
+<div class='row'>
+<div class='col-sm-8'>
+<h1>{{ obj.title }}</h1>
+
+</div>
+
+<div class='col-sm-4' style='text-align:right;'>
+
+{% if obj.get_previous_url %}
+<a href='{{ obj.get_previous_url }}'><i class="fa fa-3x fa-arrow-circle-o-left"></i></a>
+{% endif %}
+{% if obj.get_next_url %}	
+<a href='{{ obj.get_next_url }}'><i class="fa fa-3x fa-arrow-circle-o-right"></i></a>
+{% endif %}
+
+
+
+<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ obj.get_share_link }}"><i class="fa fa-facebook-square fa-3x"></i></a>
+
+
+<a target="_blank" href="https://twitter.com/home?status={{ obj.get_share_message|safe }}"><i class="fa fa-twitter-square fa-3x"></i></a>
+
+<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ obj.get_share_link }}&title={{ obj.get_share_message|safe }}&summary={{ obj.get_share_message|safe }}&source={{ obj.get_share_link }}">
+<i class="fa fa-linkedin-square fa-3x"></i>
+</a>
+</div>
+
+
+<div class='col-sm-12'>
+<hr/>
+</div>
+
+</div>
 <div class='col-sm-12' id='main_video'>
 {{ obj.embed_code|safe }}
+
 </div>
 
 {% if obj.tags.all %}
@@ -71,21 +105,6 @@ $('.reply_btn').click(function(e){
 <br/>
 
 
-<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ obj.get_share_link }}"><i class="fa fa-facebook-square fa-3x"></i></a>
-
-
-<a target="_blank" href="https://twitter.com/home?status={{ obj.get_share_message|safe }}"><i class="fa fa-twitter-square fa-3x"></i></a>
-
-<a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ obj.get_share_link }}&title={{ obj.get_share_message|safe }}&summary={{ obj.get_share_message|safe }}&source={{ obj.get_share_link }}">
-<i class="fa fa-linkedin-square fa-3x"></i>
-</a>
-
-{% if obj.get_previous_url %}
-<a href='{{ obj.get_previous_url }}'>Prev</a>
-{% endif %}
-{% if obj.get_next_url %}	
-<a href='{{ obj.get_next_url }}'>Next</a>
-{% endif %}
 
 <br/>
 <hr/>

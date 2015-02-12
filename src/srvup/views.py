@@ -58,12 +58,15 @@ def home(request):
 				popular_videos.append(new_video)
 			except:
 				pass
+
+		random_videos = Video.objects.all().order_by('?')[:6]
 		#print popular_videos
 		# one item
 		#PageView.objects.filter(primary_content_type=video_type, primary_object_id=21).count()
 
 
 		context = {
+			"random_videos": random_videos,
 			"recent_videos": recent_videos,
 			"recent_comments": recent_comments,
 			"popular_videos": popular_videos,
