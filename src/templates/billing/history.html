@@ -3,27 +3,42 @@
 
 {% block content %}
 
-<h1>Billing History</h1>
+<div class='row'>
+	<div class='col-sm-10'>
+	<h1>Billing History</h1>
 
-<table class='table'>
+	</div>
+	<div class='col-sm-2'>
+	{% if not request.user.is_member %}
+	<br/>
+	<a class='btn btn-warning btn-block' href='{% url "account_upgrade" %}'>Upgrade Account</a>
+	{% endif %}
+	</div>
+</div>
 
-<thead>
-<th>Order #</th>
-<th>Amount</th>
-<th>Payment Method</th>
-<th>Date</th>
-</thead>
-{% for object in queryset %}
-<tr>
-<td>{{ object.order_id }}</td>
-<td>${{ object.amount }}</td>
-<td>{{ object.card_type }}{% if object.last_four %}<br/>Last Four Digits: {{ object.last_four }}{% endif %}</td>
-<td>{{ object.timestamp }}</td>
+<div class='row'>
+	<div class='col-sm-12'>
+		<table class='table'>
 
-</tr>
+		<thead>
+		<th>Order #</th>
+		<th>Amount</th>
+		<th>Payment Method</th>
+		<th>Date</th>
+		</thead>
+		{% for object in queryset %}
+		<tr>
+		<td>{{ object.order_id }}</td>
+		<td>${{ object.amount }}</td>
+		<td>{{ object.card_type }}{% if object.last_four %}<br/>Last Four Digits: {{ object.last_four }}{% endif %}</td>
+		<td>{{ object.timestamp }}</td>
+
+		</tr>
 
 
-{% endfor %}
+		{% endfor %}
 
-</table>
+		</table>
+	</div>
+</div>
 {% endblock %}

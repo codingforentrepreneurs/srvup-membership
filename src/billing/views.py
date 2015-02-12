@@ -62,13 +62,12 @@ def update_transactions(user):
 				new_tran, created = get_or_create_model_transaction(user, bt_tran)
 
 
+@login_required
 def billing_history(request):
-	if request.user.is_authenticated():
-		update_transactions(request.user)
-		history = Transaction.objects.filter(user=request.user).filter(success=True)
-		return render(request, "billing/history.html", {"queryset": history})
-	else:
-		raise Http404
+	update_transactions(request.user)
+	history = Transaction.objects.filter(user=request.user).filter(success=True)
+	return render(request, "billing/history.html", {"queryset": history})
+
 
 
 @login_required

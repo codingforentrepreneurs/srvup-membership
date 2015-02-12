@@ -9,15 +9,12 @@ urlpatterns = patterns('',
     # Examples:
     #url(r'^about/$', TemplateView.as_view(template_name='base.html'), name='home'),
     #url(r'^pricing/$', TemplateView.as_view(template_name='base.html'), name='home'),
-    url(r'^contact_us/$', TemplateView.as_view(template_name='pricing.html'), name='contact_us'),
+    url(r'^contact/$', TemplateView.as_view(template_name='company/contact_us.html'), name='contact_us'),
     url(r'^$', 'srvup.views.home', name='home'),
-    url(r'^staff/$', 'srvup.views.staff_home', name='staff'),
-    #url(r'^about/about/about/$', 'srvup.views.home', name='about'),
-    # url(r'^blog/', include('blog.urls')),
     url(r'^projects/$', 'videos.views.category_list', name='projects'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/$', 'videos.views.category_detail', name='project_detail'),
     url(r'^projects/(?P<cat_slug>[\w-]+)/(?P<vid_slug>[\w-]+)/$', 'videos.views.video_detail', name='video_detail'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^dj/admin/', include(admin.site.urls)),
 ) 
 
 if settings.DEBUG:
