@@ -19,15 +19,23 @@ $("#submitPayment").on("click", function(){
 </script>
 
 {% block content %}
+<div class='row'>
+<div class='col-sm-12' style='text-align:center;'>
 
-Upgrade your account!
+<h1>Upgrade your account!</h1>
+<p class='lead'>For $25/month get unlimited access</p>
 
-<div class='col-sm-4'>
+</div>
+</div>
+<div class='row'>
+<hr/>
+<div class='col-sm-4 col-sm-offset-4'>
 <form id='checkoutForm' method='POST' action=".">{% csrf_token %}
 
 <div id='checkout' style='min-height: 350px;'></div>
 
 <input id='submitPayment' type='submit' data-loading-text="Completing..." class='btn btn-default btn-block' value='Complete upgrade' autocomplete="off" />
 </form>
+</div>
 </div>
 {% endblock %}

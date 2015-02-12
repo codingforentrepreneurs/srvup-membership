@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class='row' style='text-align:center;'>
+<div class='col-sm-12'>
+<h1>{{ title }}</h1>
+</div>
+<div class='col-sm-4 col-sm-offset-4' >
+
+
+<form method='POST' action='{{ action_url }}'>{% csrf_token %}
+{{ form|crispy}}
+<input class='btn btn-default {{ submit_btn_class }}' type='submit' value='{{ submit_btn }}'/>
+</form>
+
+{% if extra_form_link %}
+<br/>
+<p>
+{{ extra_form_link|safe }}
+</p>
+{% endif %}
+
+
+{% if title == "Login" %}
+<br/>
+<p>
+Need Account? <a href='{% url "register" %}'>Register now</a>.
+</p>
+{% endif %}
+
+</div>
+</div>
+
+
+{% endblock %}

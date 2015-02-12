@@ -3,7 +3,22 @@
 
 {% block content %}
 
+<div class='row'>
 
+<div class='col-sm-10 col-sm-offset-1'>
+<h1>Notifications</h1>
+
+<hr/>
+</div>
+
+
+</div>
+
+{% if notifications %}
+
+
+<div class='row'>
+<div class="col-sm-10 col-sm-offset-1">
 <table class='table'>
 {% for note in notifications %}
 
@@ -11,4 +26,15 @@
 <tr><td>{{ note|safe }}</td><td>{% if note.read %} Read {% else %} Unread {% endif %}</td></tr>
 {% endfor %}
 </table>
+
+</div>
+</div>
+
+{% else %}
+
+<p class='lead'>
+This is where your notifications will appear once you have them.
+</p>
+
+{% endif %}
 {% endblock %}
