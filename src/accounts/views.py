@@ -11,6 +11,12 @@ from django.core.urlresolvers import reverse
 from .forms import LoginForm, RegisterForm
 from .models import MyUser
 
+@login_required
+def account_home(request):
+	return render(request, "accounts/account_home.html", {})
+
+
+
 def auth_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/')

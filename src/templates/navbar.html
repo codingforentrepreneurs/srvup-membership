@@ -23,7 +23,7 @@
               <ul class="dropdown-menu" role="menu" id='notification_dropdown'>
               </ul>
             </li>
-              <li><a href="{% url 'billing_history' %}">Account</a></li>
+              <li><a href="{% url 'account_home' %}">Account</a></li>
               <li><a href="{% url 'logout' %}">Logout</a></li>
           {% else %}
                     {% if request.get_full_path == "/" %}

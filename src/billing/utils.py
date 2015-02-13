@@ -32,7 +32,7 @@ def update_braintree_membership(user):
 	membership = user.membership
 	now = timezone.now()
 	subscription_id = user.usermerchantid.subscription_id
-	if membership.date_end <= timezone.now():
+	if membership.date_end <= timezone.now() and subscription_id is not None:
 		status, next_billing_date = check_membership_status(subscription_id)
 		if status:
 			small_time = datetime.time(0,0,0,1)
@@ -41,6 +41,10 @@ def update_braintree_membership(user):
 			membership_dates_update.send(membership, new_date_start=datetime_aware)
 		else:
 			membership.update_status()
+	elif subscription_id is None:
+		membership.update_status()
+	else:
+		pass
 
 
 

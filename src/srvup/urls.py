@@ -27,12 +27,14 @@ if settings.DEBUG:
 urlpatterns += patterns('billing.views',
     url(r'^upgrade/$', 'upgrade', name='account_upgrade'),
     url(r'^billing/$', 'billing_history', name='billing_history'),
+    url(r'^billing/cancel/$', 'cancel_subscription', name='cancel_subscription'),
 )
 
 
 
 #auth login/logout
 urlpatterns += patterns('accounts.views',
+    url(r'^account/$', 'account_home', name='account_home'),
 	url(r'^logout/$', 'auth_logout', name='logout'),
     url(r'^login/$', 'auth_login', name='login'),
     url(r'^register/$', 'auth_register', name='register'),

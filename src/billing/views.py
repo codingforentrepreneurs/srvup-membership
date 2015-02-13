@@ -62,6 +62,24 @@ def update_transactions(user):
 				new_tran, created = get_or_create_model_transaction(user, bt_tran)
 
 
+
+@login_required
+def cancel_subscription(request):
+	sub_id = request.user.usermerchantid.subscription_id
+	if sub_id:
+		result = braintree.Subscription.cancel(sub_id)
+		if result.is_success:
+			request.user.usermerchantid.subscription_id = None
+			request.user.usermerchantid.save()
+			messages.success(request, "Your account has been successfully cancelled")
+		else:
+			messages.error(request, "There was an error with your account, please contact us.")
+	else:
+		messages.error(request, "You do not have an active subscription.")
+	return redirect("billing_history")
+
+
+
 @login_required
 def billing_history(request):
 	update_transactions(request.user)
