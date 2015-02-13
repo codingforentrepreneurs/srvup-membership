@@ -141,3 +141,19 @@ Each Lecture Name is linked to the related source code.
 
 [Video Services](../../tree/6524597525649f87bf36d7e9fb6ba01c35fe096f)
 
+[Cleaing up Part 1](../../tree/b91700b364be8146502303c152de01a17cf6d13e)
+
+[Cleaing up Part 2 & 3](../../tree/16fb1a2a2e68e8dc0a1848eed4ed1dde0ab4f27b)
+
+[Cleaing up Part 4](../../tree/fcb541d397f70d5fe629a4b6ddee4936dc066634)
+
+[Cancel Subscription and Account Home](../../tree/b1b19340d59ab71731efc540a8d09c77315bfbde)
+
+
+
+
+
+
+
+
+
