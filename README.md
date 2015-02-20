@@ -1,6 +1,10 @@
 Srvup Membership
 =========
 
+
+![Srvup Membership](https://cfe-static.s3.amazonaws.com/media/srvup-membership/images/srvup_membership.png)
+
+
 Srvup is a step-by-step tutorial to teach you how to create a video membership site much like CodingForEntrepreneurs.com. Watch tutorial series [here](https://codingforentrepreneurs.com/projects/srvup-membership/).
 
 
@@ -149,7 +153,9 @@ Each Lecture Name is linked to the related source code.
 
 [Cancel Subscription and Account Home](../../tree/b1b19340d59ab71731efc540a8d09c77315bfbde)
 
+[Account Home Update](../../tree/2602b08fa19b3157d5becb8dbceb1f8714bed203)
 
+[The Final One -- for now](../../tree/f7168514d3c7879af5f6d80013ee18665f422bd4)
 
 
 
