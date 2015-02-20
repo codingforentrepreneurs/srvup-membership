@@ -61,7 +61,7 @@ def update_transactions(user):
 			for bt_tran in bt_transactions.items:
 				new_tran, created = get_or_create_model_transaction(user, bt_tran)
 
-
+				
 
 @login_required
 def cancel_subscription(request):

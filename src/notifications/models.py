@@ -50,6 +50,9 @@ class NotificationManager(models.Manager):
 		self.get_queryset().mark_targetless(user)
 		return self.get_queryset().get_user(user)
 
+	def get_recent_for_user(self, user, num):
+		return self.get_queryset().get_user(user)[:num]
+
 
 class Notification(models.Model):
 	sender_content_type = models.ForeignKey(ContentType, related_name='nofity_sender')

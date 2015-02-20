@@ -6,14 +6,22 @@ from django.core.urlresolvers import reverse
 
 
 # Create your views here.
-
+from billing.models import Transaction
+from notifications.models import Notification
 
 from .forms import LoginForm, RegisterForm
 from .models import MyUser
 
 @login_required
 def account_home(request):
-	return render(request, "accounts/account_home.html", {})
+	notifications = Notification.objects.get_recent_for_user(request.user, 6)
+	transactions = Transaction.objects.get_recent_for_user(request.user, 3)
+	context = {
+		"notifications": notifications,
+		"transactions": transactions
+	}
+
+	return render(request, "accounts/account_home.html", context)
 
 
 
